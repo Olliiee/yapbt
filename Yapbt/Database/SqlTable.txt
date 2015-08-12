@@ -1,0 +1,75 @@
+﻿DROP TABLE AirportVariations;
+DROP TABLE AirportPositions;
+DROP TABLE AirportPushBackPath;
+DROP TABLE AirportPushPoints;
+DROP TABLE TempParking;
+DROP TABLE TempPoint;
+DROP TABLE TempTaxiway;
+
+
+CREATE TABLE [Airport] (
+[airportid] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+[name] varchar(150)  NOT NULL,
+[icao] varchar(4)  NOT NULL,
+[latitude] float  NOT NULL,
+[longitude] float  NOT NULL
+);
+
+CREATE TABLE [AirportVariations] (
+variationid guid NOT NULL PRIMARY KEY,
+airportid integer not null,
+variationname varchar(150)  NOT NULL,
+cts datetime  NOT NULL,
+FOREIGN KEY(airportid) REFERENCES Airport(airportid)
+);
+
+CREATE TABLE [AirportPositions] (
+[positionid] guid DEFAULT '1' NOT NULL PRIMARY KEY,
+[positioname] varchar(15)  NOT NULL,
+[latitude] float  NOT NULL,
+[longitutde] float  NOT NULL,
+[variationid] guid  NOT NULL,
+[cts] datetime  NOT NULL,
+FOREIGN KEY(variationid) REFERENCES AirportVariations(variationid)
+);
+
+CREATE TABLE [AirportPushBackPath] (
+[pushbackpathid] guid DEFAULT '1' NOT NULL PRIMARY KEY,
+[facing] char(1)  NOT NULL,
+[positionid] guid  NOT NULL,
+[cts] datetime  NOT NULL,
+FOREIGN KEY(positionid) REFERENCES AirportPositions(positionid)
+);
+
+CREATE TABLE [AirportPushPoints] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY,
+[latitude] float  NOT NULL,
+[longitude] float  NOT NULL,
+[heading] int NOT NULL,
+[pushbackpathid] guid  NOT NULL,
+FOREIGN KEY(pushbackpathid) REFERENCES AirportPushBackPath(pushbackpathid)
+);
+
+CREATE TABLE [TempTaxiway] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+[From] INTEGER  NOT NULL,
+[To] INTEGER  NOT NULL,
+FOREIGN KEY(From) REFERENCES TempPoint(Index),
+FOREIGN KEY(To) REFERENCES TempPoint(Index)
+);
+
+CREATE TABLE [TempParking] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+[Name] VARCHAR(10)  NOT NULL,
+[Index] InTEGER  NOT NULL,
+[Number] INTEGER  NOT NULL,
+[Latitude] FLOAT  NOT NULL,
+[LONGITUDE] FLOAT  NOT NULL
+);
+
+CREATE TABLE [TempPoint] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+[Index] INTEGER  NOT NULL,
+[Latitude] FLOAT  NOT NULL,
+[Longitude] FLOAT  NOT NULL
+);
