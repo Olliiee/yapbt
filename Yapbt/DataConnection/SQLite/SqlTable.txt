@@ -1,0 +1,78 @@
+﻿-- Dropping all tables
+DROP TABLE AirportVariations;
+DROP TABLE AirportPositions;
+DROP TABLE AirportPushBackPath;
+DROP TABLE AirportPushPoints;
+DROP TABLE TempParking;
+DROP TABLE TempPoint;
+DROP TABLE TempTaxiway;
+
+-- Creating the tables
+--CREATE TABLE [Airport] (
+--[airportid] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+--[name] varchar(150)  NOT NULL,
+--[icao] varchar(4)  NOT NULL,
+--[latitude] float  NOT NULL,
+--[longitude] float  NOT NULL
+--);
+
+CREATE TABLE [AirportVariations] (
+variationid guid NOT NULL PRIMARY KEY,
+airportid integer not null,
+variationname varchar(150)  NOT NULL,
+cts datetime  NOT NULL,
+FOREIGN KEY(airportid) REFERENCES Airport(airportid)
+);
+
+CREATE TABLE [AirportPositions] (
+[positionid] guid DEFAULT '1' NOT NULL PRIMARY KEY,
+[positioname] varchar(15)  NOT NULL,
+[latitude] float  NOT NULL,
+[longitutde] float  NOT NULL,
+[variationid] guid  NOT NULL,
+[cts] datetime  NOT NULL,
+FOREIGN KEY(variationid) REFERENCES AirportVariations(variationid)
+);
+
+CREATE TABLE [AirportPushBackPath] (
+[pushbackpathid] guid DEFAULT '1' NOT NULL PRIMARY KEY,
+[facing] char(1)  NOT NULL,
+[positionid] guid  NOT NULL,
+[cts] datetime  NOT NULL,
+FOREIGN KEY(positionid) REFERENCES AirportPositions(positionid)
+);
+
+CREATE TABLE [AirportPushPoints] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY,
+[latitude] float  NOT NULL,
+[longitude] float  NOT NULL,
+[heading] int NOT NULL,
+[pushbackpathid] guid  NOT NULL,
+FOREIGN KEY(pushbackpathid) REFERENCES AirportPushBackPath(pushbackpathid)
+);
+
+
+-- Creating the temp talbles, they will be recreated for each bgl file.
+CREATE TABLE [TempParking] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+[Name] VARCHAR(10)  NOT NULL,
+[Bglid] INTEGER  NOT NULL,
+[Number] INTEGER  NOT NULL,
+[Latitude] FLOAT  NOT NULL,
+[Longitude] FLOAT  NOT NULL
+);
+
+CREATE TABLE [TempPoint] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+[Bglid] INTEGER  NOT NULL,
+[Latitude] FLOAT  NOT NULL,
+[Longitude] FLOAT  NOT NULL
+);
+
+CREATE TABLE [TempTaxiway] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+[FromPoint] INTEGER  NOT NULL,
+[ToPoint] INTEGER  NOT NULL,
+FOREIGN KEY(FromPoint) REFERENCES TempPoint(Bglid),
+FOREIGN KEY(ToPoint) REFERENCES TempPoint(Bglid)
+);
