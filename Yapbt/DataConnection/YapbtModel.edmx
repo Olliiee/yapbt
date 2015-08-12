@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="YapbtDbModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=M:\Dev\privat\YAPBT2\Database\YapbtDb.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Airport">
+          <Key>
+            <PropertyRef Name="airportid" />
+          </Key>
+          <Property Name="airportid" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="icao" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="latitude" Type="real" Nullable="false" />
+          <Property Name="longitude" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AirportPositions">
+          <Key>
+            <PropertyRef Name="positionid" />
+          </Key>
+          <Property Name="positionid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="positioname" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="latitude" Type="real" Nullable="false" />
+          <Property Name="longitutde" Type="real" Nullable="false" />
+          <Property Name="variationid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="cts" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AirportPushBackPath">
+          <Key>
+            <PropertyRef Name="pushbackpathid" />
+          </Key>
+          <Property Name="pushbackpathid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="facing" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="positionid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="cts" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AirportPushPoints">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" Nullable="false" />
+          <Property Name="latitude" Type="real" Nullable="false" />
+          <Property Name="longitude" Type="real" Nullable="false" />
+          <Property Name="heading" Type="int" Nullable="false" />
+          <Property Name="pushbackpathid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AirportVariations">
+          <Key>
+            <PropertyRef Name="variationid" />
+          </Key>
+          <Property Name="variationid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="airportid" Type="integer" Nullable="false" />
+          <Property Name="variationname" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="cts" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AirportPositions_0_0">
+          <End Role="AirportVariations" Type="Self.AirportVariations" Multiplicity="1" />
+          <End Role="AirportPositions" Type="Self.AirportPositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AirportVariations">
+              <PropertyRef Name="variationid" />
+            </Principal>
+            <Dependent Role="AirportPositions">
+              <PropertyRef Name="variationid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AirportPushBackPath_0_0">
+          <End Role="AirportPositions" Type="Self.AirportPositions" Multiplicity="1" />
+          <End Role="AirportPushBackPath" Type="Self.AirportPushBackPath" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AirportPositions">
+              <PropertyRef Name="positionid" />
+            </Principal>
+            <Dependent Role="AirportPushBackPath">
+              <PropertyRef Name="positionid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AirportPushPoints_0_0">
+          <End Role="AirportPushBackPath" Type="Self.AirportPushBackPath" Multiplicity="1" />
+          <End Role="AirportPushPoints" Type="Self.AirportPushPoints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AirportPushBackPath">
+              <PropertyRef Name="pushbackpathid" />
+            </Principal>
+            <Dependent Role="AirportPushPoints">
+              <PropertyRef Name="pushbackpathid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AirportVariations_0_0">
+          <End Role="Airport" Type="Self.Airport" Multiplicity="1" />
+          <End Role="AirportVariations" Type="Self.AirportVariations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airport">
+              <PropertyRef Name="airportid" />
+            </Principal>
+            <Dependent Role="AirportVariations">
+              <PropertyRef Name="airportid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="YapbtDbModelStoreContainer">
+          <EntitySet Name="Airport" EntityType="Self.Airport" store:Type="Tables" />
+          <EntitySet Name="AirportPositions" EntityType="Self.AirportPositions" store:Type="Tables" />
+          <EntitySet Name="AirportPushBackPath" EntityType="Self.AirportPushBackPath" store:Type="Tables" />
+          <EntitySet Name="AirportPushPoints" EntityType="Self.AirportPushPoints" store:Type="Tables" />
+          <EntitySet Name="AirportVariations" EntityType="Self.AirportVariations" store:Type="Tables" />
+          <AssociationSet Name="FK_AirportPositions_0_0" Association="Self.FK_AirportPositions_0_0">
+            <End Role="AirportVariations" EntitySet="AirportVariations" />
+            <End Role="AirportPositions" EntitySet="AirportPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AirportPushBackPath_0_0" Association="Self.FK_AirportPushBackPath_0_0">
+            <End Role="AirportPositions" EntitySet="AirportPositions" />
+            <End Role="AirportPushBackPath" EntitySet="AirportPushBackPath" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AirportPushPoints_0_0" Association="Self.FK_AirportPushPoints_0_0">
+            <End Role="AirportPushBackPath" EntitySet="AirportPushBackPath" />
+            <End Role="AirportPushPoints" EntitySet="AirportPushPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AirportVariations_0_0" Association="Self.FK_AirportVariations_0_0">
+            <End Role="Airport" EntitySet="Airport" />
+            <End Role="AirportVariations" EntitySet="AirportVariations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="YapbtDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Airport">
+          <Key>
+            <PropertyRef Name="airportid" />
+          </Key>
+          <Property Name="airportid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="icao" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="latitude" Type="Double" Nullable="false" />
+          <Property Name="longitude" Type="Double" Nullable="false" />
+          <NavigationProperty Name="AirportVariations" Relationship="Self.FK_AirportVariations_0_0" FromRole="Airport" ToRole="AirportVariations" />
+        </EntityType>
+        <EntityType Name="AirportPositions">
+          <Key>
+            <PropertyRef Name="positionid" />
+          </Key>
+          <Property Name="positionid" Type="Guid" Nullable="false" />
+          <Property Name="positioname" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="latitude" Type="Double" Nullable="false" />
+          <Property Name="longitutde" Type="Double" Nullable="false" />
+          <Property Name="variationid" Type="Guid" Nullable="false" />
+          <Property Name="cts" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="AirportVariations" Relationship="Self.FK_AirportPositions_0_0" FromRole="AirportPositions" ToRole="AirportVariations" />
+          <NavigationProperty Name="AirportPushBackPath" Relationship="Self.FK_AirportPushBackPath_0_0" FromRole="AirportPositions" ToRole="AirportPushBackPath" />
+        </EntityType>
+        <EntityType Name="AirportPushBackPath">
+          <Key>
+            <PropertyRef Name="pushbackpathid" />
+          </Key>
+          <Property Name="pushbackpathid" Type="Guid" Nullable="false" />
+          <Property Name="facing" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="positionid" Type="Guid" Nullable="false" />
+          <Property Name="cts" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="AirportPositions" Relationship="Self.FK_AirportPushBackPath_0_0" FromRole="AirportPushBackPath" ToRole="AirportPositions" />
+          <NavigationProperty Name="AirportPushPoints" Relationship="Self.FK_AirportPushPoints_0_0" FromRole="AirportPushBackPath" ToRole="AirportPushPoints" />
+        </EntityType>
+        <EntityType Name="AirportPushPoints">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="latitude" Type="Double" Nullable="false" />
+          <Property Name="longitude" Type="Double" Nullable="false" />
+          <Property Name="heading" Type="Int32" Nullable="false" />
+          <Property Name="pushbackpathid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="AirportPushBackPath" Relationship="Self.FK_AirportPushPoints_0_0" FromRole="AirportPushPoints" ToRole="AirportPushBackPath" />
+        </EntityType>
+        <EntityType Name="AirportVariations">
+          <Key>
+            <PropertyRef Name="variationid" />
+          </Key>
+          <Property Name="variationid" Type="Guid" Nullable="false" />
+          <Property Name="airportid" Type="Int64" Nullable="false" />
+          <Property Name="variationname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cts" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Airport" Relationship="Self.FK_AirportVariations_0_0" FromRole="AirportVariations" ToRole="Airport" />
+          <NavigationProperty Name="AirportPositions" Relationship="Self.FK_AirportPositions_0_0" FromRole="AirportVariations" ToRole="AirportPositions" />
+        </EntityType>
+        <Association Name="FK_AirportVariations_0_0">
+          <End Role="Airport" Type="Self.Airport" Multiplicity="1" />
+          <End Role="AirportVariations" Type="Self.AirportVariations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airport">
+              <PropertyRef Name="airportid" />
+            </Principal>
+            <Dependent Role="AirportVariations">
+              <PropertyRef Name="airportid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AirportPositions_0_0">
+          <End Role="AirportVariations" Type="Self.AirportVariations" Multiplicity="1" />
+          <End Role="AirportPositions" Type="Self.AirportPositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AirportVariations">
+              <PropertyRef Name="variationid" />
+            </Principal>
+            <Dependent Role="AirportPositions">
+              <PropertyRef Name="variationid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AirportPushBackPath_0_0">
+          <End Role="AirportPositions" Type="Self.AirportPositions" Multiplicity="1" />
+          <End Role="AirportPushBackPath" Type="Self.AirportPushBackPath" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AirportPositions">
+              <PropertyRef Name="positionid" />
+            </Principal>
+            <Dependent Role="AirportPushBackPath">
+              <PropertyRef Name="positionid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AirportPushPoints_0_0">
+          <End Role="AirportPushBackPath" Type="Self.AirportPushBackPath" Multiplicity="1" />
+          <End Role="AirportPushPoints" Type="Self.AirportPushPoints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AirportPushBackPath">
+              <PropertyRef Name="pushbackpathid" />
+            </Principal>
+            <Dependent Role="AirportPushPoints">
+              <PropertyRef Name="pushbackpathid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="YapbtDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Airport" EntityType="Self.Airport" />
+          <EntitySet Name="AirportPositions" EntityType="Self.AirportPositions" />
+          <EntitySet Name="AirportPushBackPath" EntityType="Self.AirportPushBackPath" />
+          <EntitySet Name="AirportPushPoints" EntityType="Self.AirportPushPoints" />
+          <EntitySet Name="AirportVariations" EntityType="Self.AirportVariations" />
+          <AssociationSet Name="FK_AirportVariations_0_0" Association="Self.FK_AirportVariations_0_0">
+            <End Role="Airport" EntitySet="Airport" />
+            <End Role="AirportVariations" EntitySet="AirportVariations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AirportPositions_0_0" Association="Self.FK_AirportPositions_0_0">
+            <End Role="AirportVariations" EntitySet="AirportVariations" />
+            <End Role="AirportPositions" EntitySet="AirportPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AirportPushBackPath_0_0" Association="Self.FK_AirportPushBackPath_0_0">
+            <End Role="AirportPositions" EntitySet="AirportPositions" />
+            <End Role="AirportPushBackPath" EntitySet="AirportPushBackPath" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AirportPushPoints_0_0" Association="Self.FK_AirportPushPoints_0_0">
+            <End Role="AirportPushBackPath" EntitySet="AirportPushBackPath" />
+            <End Role="AirportPushPoints" EntitySet="AirportPushPoints" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="YapbtDbModelStoreContainer" CdmEntityContainer="YapbtDbEntities">
+          <EntitySetMapping Name="Airport">
+            <EntityTypeMapping TypeName="YapbtDbModel.Airport">
+              <MappingFragment StoreEntitySet="Airport">
+                <ScalarProperty Name="airportid" ColumnName="airportid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="icao" ColumnName="icao" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AirportPositions">
+            <EntityTypeMapping TypeName="YapbtDbModel.AirportPositions">
+              <MappingFragment StoreEntitySet="AirportPositions">
+                <ScalarProperty Name="positionid" ColumnName="positionid" />
+                <ScalarProperty Name="positioname" ColumnName="positioname" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitutde" ColumnName="longitutde" />
+                <ScalarProperty Name="variationid" ColumnName="variationid" />
+                <ScalarProperty Name="cts" ColumnName="cts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AirportPushBackPath">
+            <EntityTypeMapping TypeName="YapbtDbModel.AirportPushBackPath">
+              <MappingFragment StoreEntitySet="AirportPushBackPath">
+                <ScalarProperty Name="pushbackpathid" ColumnName="pushbackpathid" />
+                <ScalarProperty Name="facing" ColumnName="facing" />
+                <ScalarProperty Name="positionid" ColumnName="positionid" />
+                <ScalarProperty Name="cts" ColumnName="cts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AirportPushPoints">
+            <EntityTypeMapping TypeName="YapbtDbModel.AirportPushPoints">
+              <MappingFragment StoreEntitySet="AirportPushPoints">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="heading" ColumnName="heading" />
+                <ScalarProperty Name="pushbackpathid" ColumnName="pushbackpathid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AirportVariations">
+            <EntityTypeMapping TypeName="YapbtDbModel.AirportVariations">
+              <MappingFragment StoreEntitySet="AirportVariations">
+                <ScalarProperty Name="variationid" ColumnName="variationid" />
+                <ScalarProperty Name="airportid" ColumnName="airportid" />
+                <ScalarProperty Name="variationname" ColumnName="variationname" />
+                <ScalarProperty Name="cts" ColumnName="cts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
