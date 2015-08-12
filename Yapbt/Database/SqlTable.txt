@@ -1,4 +1,5 @@
-﻿DROP TABLE AirportVariations;
+﻿-- Dropping all tables
+DROP TABLE AirportVariations;
 DROP TABLE AirportPositions;
 DROP TABLE AirportPushBackPath;
 DROP TABLE AirportPushPoints;
@@ -6,7 +7,7 @@ DROP TABLE TempParking;
 DROP TABLE TempPoint;
 DROP TABLE TempTaxiway;
 
-
+-- Creating the tables
 CREATE TABLE [Airport] (
 [airportid] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
 [name] varchar(150)  NOT NULL,
@@ -50,14 +51,8 @@ CREATE TABLE [AirportPushPoints] (
 FOREIGN KEY(pushbackpathid) REFERENCES AirportPushBackPath(pushbackpathid)
 );
 
-CREATE TABLE [TempTaxiway] (
-[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
-[From] INTEGER  NOT NULL,
-[To] INTEGER  NOT NULL,
-FOREIGN KEY(From) REFERENCES TempPoint(Index),
-FOREIGN KEY(To) REFERENCES TempPoint(Index)
-);
 
+-- Creating the temp talbles, they will be recreated for each bgl file.
 CREATE TABLE [TempParking] (
 [id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
 [Name] VARCHAR(10)  NOT NULL,
@@ -72,4 +67,12 @@ CREATE TABLE [TempPoint] (
 [Index] INTEGER  NOT NULL,
 [Latitude] FLOAT  NOT NULL,
 [Longitude] FLOAT  NOT NULL
+);
+
+CREATE TABLE [TempTaxiway] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+[From] INTEGER  NOT NULL,
+[To] INTEGER  NOT NULL,
+FOREIGN KEY(From) REFERENCES TempPoint(Index),
+FOREIGN KEY(To) REFERENCES TempPoint(Index)
 );
