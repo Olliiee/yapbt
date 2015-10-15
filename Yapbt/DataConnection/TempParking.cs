@@ -12,14 +12,13 @@ namespace org.strausshome.yapbt.DataConnection
     using System;
     using System.Collections.Generic;
     
-    public partial class AirportPushPoints
+    public partial class TempParking
     {
         public long id { get; set; }
-        public double latitude { get; set; }
-        public double longitude { get; set; }
-        public int heading { get; set; }
-        public System.Guid pushbackpathid { get; set; }
-    
-        public virtual AirportPushBackPath AirportPushBackPath { get; set; }
+        public string Name { get; set; }
+        public long Bglid { get; set; }
+        public long Number { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

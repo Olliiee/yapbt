@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataReader
+namespace org.strausshome.yapbt.DataReader
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ReadBglData
     {
     }

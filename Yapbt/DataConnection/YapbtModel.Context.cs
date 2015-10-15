@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataConnection
+namespace org.strausshome.yapbt.DataConnection
 {
     using System;
     using System.Data.Entity;
@@ -30,5 +30,8 @@ namespace DataConnection
         public virtual DbSet<AirportPushBackPath> AirportPushBackPath { get; set; }
         public virtual DbSet<AirportPushPoints> AirportPushPoints { get; set; }
         public virtual DbSet<AirportVariations> AirportVariations { get; set; }
+        public virtual DbSet<TempParking> TempParking { get; set; }
+        public virtual DbSet<TempPoint> TempPoint { get; set; }
+        public virtual DbSet<TempTaxiway> TempTaxiway { get; set; }
     }
 }

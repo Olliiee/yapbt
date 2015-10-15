@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataConnection
+namespace org.strausshome.yapbt.DataConnection
 {
     using System;
     using System.Collections.Generic;

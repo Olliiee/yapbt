@@ -54,6 +54,34 @@
           <Property Name="variationname" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="cts" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="TempParking">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Bglid" Type="integer" Nullable="false" />
+          <Property Name="Number" Type="integer" Nullable="false" />
+          <Property Name="Latitude" Type="real" Nullable="false" />
+          <Property Name="Longitude" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TempPoint">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bglid" Type="integer" Nullable="false" />
+          <Property Name="Latitude" Type="real" Nullable="false" />
+          <Property Name="Longitude" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TempTaxiway">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromPoint" Type="integer" Nullable="false" />
+          <Property Name="ToPoint" Type="integer" Nullable="false" />
+        </EntityType>
         <Association Name="FK_AirportPositions_0_0">
           <End Role="AirportVariations" Type="Self.AirportVariations" Multiplicity="1" />
           <End Role="AirportPositions" Type="Self.AirportPositions" Multiplicity="*" />
@@ -102,12 +130,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_TempTaxiway_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_TempTaxiway_0_0" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_TempTaxiway_1_0" />-->
         <EntityContainer Name="YapbtDbModelStoreContainer">
           <EntitySet Name="Airport" EntityType="Self.Airport" store:Type="Tables" />
           <EntitySet Name="AirportPositions" EntityType="Self.AirportPositions" store:Type="Tables" />
           <EntitySet Name="AirportPushBackPath" EntityType="Self.AirportPushBackPath" store:Type="Tables" />
           <EntitySet Name="AirportPushPoints" EntityType="Self.AirportPushPoints" store:Type="Tables" />
           <EntitySet Name="AirportVariations" EntityType="Self.AirportVariations" store:Type="Tables" />
+          <EntitySet Name="TempParking" EntityType="Self.TempParking" store:Type="Tables" />
+          <EntitySet Name="TempPoint" EntityType="Self.TempPoint" store:Type="Tables" />
+          <EntitySet Name="TempTaxiway" EntityType="Self.TempTaxiway" store:Type="Tables" />
           <AssociationSet Name="FK_AirportPositions_0_0" Association="Self.FK_AirportPositions_0_0">
             <End Role="AirportVariations" EntitySet="AirportVariations" />
             <End Role="AirportPositions" EntitySet="AirportPositions" />
@@ -187,6 +224,34 @@
           <NavigationProperty Name="Airport" Relationship="Self.FK_AirportVariations_0_0" FromRole="AirportVariations" ToRole="Airport" />
           <NavigationProperty Name="AirportPositions" Relationship="Self.FK_AirportPositions_0_0" FromRole="AirportVariations" ToRole="AirportPositions" />
         </EntityType>
+        <EntityType Name="TempParking">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Bglid" Type="Int64" Nullable="false" />
+          <Property Name="Number" Type="Int64" Nullable="false" />
+          <Property Name="Latitude" Type="Double" Nullable="false" />
+          <Property Name="Longitude" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TempPoint">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bglid" Type="Int64" Nullable="false" />
+          <Property Name="Latitude" Type="Double" Nullable="false" />
+          <Property Name="Longitude" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TempTaxiway">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromPoint" Type="Int64" Nullable="false" />
+          <Property Name="ToPoint" Type="Int64" Nullable="false" />
+        </EntityType>
         <Association Name="FK_AirportVariations_0_0">
           <End Role="Airport" Type="Self.Airport" Multiplicity="1" />
           <End Role="AirportVariations" Type="Self.AirportVariations" Multiplicity="*" />
@@ -241,6 +306,9 @@
           <EntitySet Name="AirportPushBackPath" EntityType="Self.AirportPushBackPath" />
           <EntitySet Name="AirportPushPoints" EntityType="Self.AirportPushPoints" />
           <EntitySet Name="AirportVariations" EntityType="Self.AirportVariations" />
+          <EntitySet Name="TempParking" EntityType="Self.TempParking" />
+          <EntitySet Name="TempPoint" EntityType="Self.TempPoint" />
+          <EntitySet Name="TempTaxiway" EntityType="Self.TempTaxiway" />
           <AssociationSet Name="FK_AirportVariations_0_0" Association="Self.FK_AirportVariations_0_0">
             <End Role="Airport" EntitySet="Airport" />
             <End Role="AirportVariations" EntitySet="AirportVariations" />
@@ -315,6 +383,37 @@
                 <ScalarProperty Name="airportid" ColumnName="airportid" />
                 <ScalarProperty Name="variationname" ColumnName="variationname" />
                 <ScalarProperty Name="cts" ColumnName="cts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TempParking">
+            <EntityTypeMapping TypeName="YapbtDbModel.TempParking">
+              <MappingFragment StoreEntitySet="TempParking">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Bglid" ColumnName="Bglid" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TempPoint">
+            <EntityTypeMapping TypeName="YapbtDbModel.TempPoint">
+              <MappingFragment StoreEntitySet="TempPoint">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Bglid" ColumnName="Bglid" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TempTaxiway">
+            <EntityTypeMapping TypeName="YapbtDbModel.TempTaxiway">
+              <MappingFragment StoreEntitySet="TempTaxiway">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FromPoint" ColumnName="FromPoint" />
+                <ScalarProperty Name="ToPoint" ColumnName="ToPoint" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

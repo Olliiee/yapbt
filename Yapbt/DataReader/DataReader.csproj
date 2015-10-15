@@ -7,7 +7,7 @@
     <ProjectGuid>{228B4A70-0F32-48D5-AB1E-BC39B4B7C6B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataReader</RootNamespace>
+    <RootNamespace>org.strausshome.yapbt.DataReader</RootNamespace>
     <AssemblyName>DataReader</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
