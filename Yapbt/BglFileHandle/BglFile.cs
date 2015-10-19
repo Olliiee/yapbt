@@ -22,8 +22,11 @@ namespace org.strausshome.yapbt.BglFileHandle
         {
             try
             {
+                // If xml file already exists delete it.
                 if (File.Exists(xmlFile))
+                {
                     File.Delete(xmlFile);
+                }
 
                 Process P = new Process();
                 P.StartInfo.FileName = bglTool;
