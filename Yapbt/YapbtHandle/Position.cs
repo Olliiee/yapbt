@@ -1,5 +1,6 @@
-﻿using org.strausshome.yapbt.DataConnection;
+﻿using System.Collections.Generic;
 using System.Linq;
+using org.strausshome.yapbt.DataConnection;
 
 namespace org.strausshome.yapbt.YapbtHandle
 {
@@ -11,9 +12,61 @@ namespace org.strausshome.yapbt.YapbtHandle
         #region Positions
 
         /// <summary>
+        /// Add a new airport position to the db.
+        /// </summary>
+        /// <param name="position">The position object to add to the db.</param>
+        /// <returns>True everything went well; False something went wrong.</returns>
+        public bool AddNewPosition(AirportPositions position)
+        {
+            using (var db = new YapbtDbEntities())
+            {
+                try
+                {
+                    db.AirportPositions.Add(position);
+                    return true;
+                }
+                catch (System.Exception)
+                {
+                    return false;
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add a list of positions to the db.
+        /// </summary>
+        /// <param name="positions">The list of positions.</param>
+        /// <returns>True everything went well; False something went wrong.</returns>
+        public bool AddNewPosition(List<AirportPositions> positions)
+        {
+            using (var db = new YapbtDbEntities())
+            {
+                try
+                {
+                    foreach (var position in positions)
+                    {
+                        db.AirportPositions.Add(position);
+
+
+                    }
+
+                    return true;
+                }
+                catch (System.Exception)
+                {
+                    return false;
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
         /// Remove all positions of an variation.
         /// </summary>
-        /// <param name="variation">The airport variation. With this object, it will lookup for all positions.</param>
+        /// <param name="variation">
+        /// The airport variation. With this object, it will lookup for all positions.
+        /// </param>
         /// <returns>True everything went well; False something went wrong.</returns>
         public bool RemoveAllPositions(AirportVariations variation)
         {
