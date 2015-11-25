@@ -33,33 +33,7 @@ namespace org.strausshome.yapbt.YapbtHandle
             }
         }
 
-        /// <summary>
-        /// Add a list of positions to the db.
-        /// </summary>
-        /// <param name="positions">The list of positions.</param>
-        /// <returns>True everything went well; False something went wrong.</returns>
-        public bool AddNewPosition(List<AirportPositions> positions)
-        {
-            using (var db = new YapbtDbEntities())
-            {
-                try
-                {
-                    foreach (var position in positions)
-                    {
-                        db.AirportPositions.Add(position);
 
-
-                    }
-
-                    return true;
-                }
-                catch (System.Exception)
-                {
-                    return false;
-                    throw;
-                }
-            }
-        }
 
         /// <summary>
         /// Remove all positions of an variation.
@@ -91,6 +65,26 @@ namespace org.strausshome.yapbt.YapbtHandle
 
                 return true;
             }
+        }
+
+        /// <summary>
+        /// Add positions by list to the db.
+        /// </summary>
+        /// <param name="positionList">The list position objects.</param>
+        /// <returns>Returns a list of position running into an error.</returns>
+        public List<AirportPositions> AddNewPosition(List<AirportPositions> positionList)
+        {
+            List<AirportPositions> errorList = new List<AirportPositions>();
+
+            foreach (var position in positionList)
+            {
+                if (!this.AddNewPosition(position))
+                {
+                    errorList.Add(position);
+                }
+            }
+
+            return errorList;
         }
 
         #endregion Positions

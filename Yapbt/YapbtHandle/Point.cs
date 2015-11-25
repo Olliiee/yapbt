@@ -1,6 +1,7 @@
-﻿using org.strausshome.yapbt.DataConnection;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using org.strausshome.yapbt.DataConnection;
 
 namespace org.strausshome.yapbt.YapbtHandle
 {
@@ -64,7 +65,7 @@ namespace org.strausshome.yapbt.YapbtHandle
                         db.SaveChanges();
 
                         return true;
-                    } 
+                    }
                 }
                 else
                 {
@@ -75,6 +76,48 @@ namespace org.strausshome.yapbt.YapbtHandle
             {
                 return false;
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Add a list of points to the db.
+        /// </summary>
+        /// <param name="pointList">A list of points to add them into the db.</param>
+        /// <returns>A possible list of points running into an error.</returns>
+        public List<AirportPushPoints> AddPointsByList(List<AirportPushPoints> pointList)
+        {
+            List<AirportPushPoints> errorList = new List<AirportPushPoints>();
+
+            // For each point in the list add it.
+            foreach (var point in pointList)
+            {
+                if (!this.AddPoint(point))
+                {
+                    errorList.Add(point);
+                }
+            }
+
+            return errorList;
+        }
+
+        /// <summary>
+        /// Add a single point to the db.
+        /// </summary>
+        /// <param name="pointToAdd">The point object.</param>
+        /// <returns>True everything ok; False something went wrong.</returns>
+        public bool AddPoint(AirportPushPoints pointToAdd)
+        {
+            try
+            {
+                using (var db = new YapbtDbEntities())
+                {
+                    db.AirportPushPoints.Add(pointToAdd);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
