@@ -1,8 +1,10 @@
-﻿using org.strausshome.yapbt.DataConnection;
+﻿using Org.Strausshome.Yapbt.DataConnection;
 
-namespace org.strausshome.yapbt.YapbtHandle
+namespace Org.Strausshome.Yapbt.YapbtHandle
 {
-    // This class handles adding and deleting yapbt data.
+    /// <summary>
+    ///  This class handles adding and deleting yapbt data and is the entry point.
+    /// </summary>
     public class YapbtDataHandling
     {
         /// <summary>
@@ -10,7 +12,7 @@ namespace org.strausshome.yapbt.YapbtHandle
         /// </summary>
         /// <param name="airport">The airport variation object to delete.</param>
         /// <returns></returns>
-        public bool removeAirportVariation (AirportVariations airport)
+        public bool RemoveAirportVariation(AirportVariations airport)
         {
             Variation airportVariation = new Variation();
 
@@ -22,7 +24,7 @@ namespace org.strausshome.yapbt.YapbtHandle
         /// </summary>
         /// <param name="airport">The airport variation object to add.</param>
         /// <returns></returns>
-        public bool AddAirportVariation (AirportVariations airport)
+        public bool AddAirportVariation(AirportVariations airport)
         {
             Variation airportVariation = new Variation();
 

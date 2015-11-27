@@ -7,7 +7,7 @@
     <ProjectGuid>{228B4A70-0F32-48D5-AB1E-BC39B4B7C6B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>org.strausshome.yapbt.DataReader</RootNamespace>
+    <RootNamespace>Org.Strausshome.Yapbt.DataReader</RootNamespace>
     <AssemblyName>DataReader</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -51,8 +51,17 @@
     <Compile Include="Fields.cs" />
     <Compile Include="ReadBglData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResetDatabase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BglFileHandle\BglFileHandle.csproj">
+      <Project>{b944afc4-b2c2-4d88-a705-72debd1fe8ff}</Project>
+      <Name>BglFileHandle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Codes\Codes.csproj">
+      <Project>{84763fc4-1e66-43e5-b8ca-40f20be65c94}</Project>
+      <Name>Codes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataConnection\DataConnection.csproj">
       <Project>{e07b5ef7-e489-43f1-bb55-dfdfe4605824}</Project>
       <Name>DataConnection</Name>

@@ -7,11 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace org.strausshome.yapbt.DataConnection
+namespace Org.Strausshome.Yapbt.DataConnection
 {
-    using System;
     using System.Collections.Generic;
-    
+
     public partial class AirportPositions
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,14 +18,14 @@ namespace org.strausshome.yapbt.DataConnection
         {
             this.AirportPushBackPath = new HashSet<AirportPushBackPath>();
         }
-    
+
         public System.Guid positionid { get; set; }
         public string positioname { get; set; }
         public double latitude { get; set; }
         public double longitutde { get; set; }
         public System.Guid variationid { get; set; }
         public System.DateTime cts { get; set; }
-    
+
         public virtual AirportVariations AirportVariations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AirportPushBackPath> AirportPushBackPath { get; set; }

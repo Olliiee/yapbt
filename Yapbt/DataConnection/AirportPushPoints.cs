@@ -7,11 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace org.strausshome.yapbt.DataConnection
+namespace Org.Strausshome.Yapbt.DataConnection
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class AirportPushPoints
     {
         public long id { get; set; }
@@ -19,7 +16,7 @@ namespace org.strausshome.yapbt.DataConnection
         public double longitude { get; set; }
         public int heading { get; set; }
         public System.Guid pushbackpathid { get; set; }
-    
+
         public virtual AirportPushBackPath AirportPushBackPath { get; set; }
     }
 }

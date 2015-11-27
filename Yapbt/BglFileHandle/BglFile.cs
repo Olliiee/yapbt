@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace org.strausshome.yapbt.BglFileHandle
+namespace Org.Strausshome.Yapbt.BglFileHandle
 {
     /// <summary>
     /// This class handles the bgl converting part.
@@ -17,7 +17,7 @@ namespace org.strausshome.yapbt.BglFileHandle
         /// <param name="bglTool">Where is the bgl converter exe.</param>
         /// <param name="bglFile">Where is the bgl file to convert.</param>
         /// <param name="xmlFile">Where to write the output xml file.</param>
-        /// <returns>True ok; False something went wrong.</returns>
+        /// <returns>True ok; False something went wrong no xml file created.</returns>
         public bool ConevertBglFile(string bglTool, string bglFile, string xmlFile)
         {
             try
@@ -33,11 +33,17 @@ namespace org.strausshome.yapbt.BglFileHandle
 
                 string BglArguments = String.Empty;
 
+                // Depending on the tool, set the parameters.
                 if (bglTool.ToLower().Contains("bgl2xml.exe"))
+                {
                     BglArguments = "/s \"" + bglFile + "\" /d \"" + xmlFile + "\"";
+                }
                 else if (bglTool.ToLower().Contains("bglxml.exe"))
+                {
                     BglArguments = "\"" + bglFile + "\" \"" + xmlFile + "\"";
+                }
 
+                // Starting parameters are set? Let's got.
                 if (BglArguments != String.Empty)
                 {
                     P.StartInfo.Arguments = BglArguments;

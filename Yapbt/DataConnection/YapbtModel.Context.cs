@@ -7,24 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace org.strausshome.yapbt.DataConnection
+namespace Org.Strausshome.Yapbt.DataConnection
 {
-    using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class YapbtDbEntities : DbContext
     {
         public YapbtDbEntities()
             : base("name=YapbtDbEntities")
         {
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+
         public virtual DbSet<Airport> Airport { get; set; }
         public virtual DbSet<AirportPositions> AirportPositions { get; set; }
         public virtual DbSet<AirportPushBackPath> AirportPushBackPath { get; set; }

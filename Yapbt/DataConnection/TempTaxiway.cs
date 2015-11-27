@@ -7,11 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace org.strausshome.yapbt.DataConnection
+namespace Org.Strausshome.Yapbt.DataConnection
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class TempTaxiway
     {
         public long id { get; set; }

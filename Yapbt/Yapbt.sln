@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BglFileHandle", "BglFileHan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YapbtHandle", "YapbtHandle\YapbtHandle.csproj", "{8192E95A-AF42-47B5-A388-97432C95D23B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codes", "Codes\Codes.csproj", "{84763FC4-1E66-43E5-B8CA-40F20BE65C94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8192E95A-AF42-47B5-A388-97432C95D23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8192E95A-AF42-47B5-A388-97432C95D23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8192E95A-AF42-47B5-A388-97432C95D23B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84763FC4-1E66-43E5-B8CA-40F20BE65C94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84763FC4-1E66-43E5-B8CA-40F20BE65C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84763FC4-1E66-43E5-B8CA-40F20BE65C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84763FC4-1E66-43E5-B8CA-40F20BE65C94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

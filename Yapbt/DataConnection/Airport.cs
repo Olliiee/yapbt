@@ -7,11 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace org.strausshome.yapbt.DataConnection
+namespace Org.Strausshome.Yapbt.DataConnection
 {
-    using System;
     using System.Collections.Generic;
-    
+
     public partial class Airport
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,13 +18,13 @@ namespace org.strausshome.yapbt.DataConnection
         {
             this.AirportVariations = new HashSet<AirportVariations>();
         }
-    
+
         public long airportid { get; set; }
         public string name { get; set; }
         public string icao { get; set; }
         public double latitude { get; set; }
         public double longitude { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AirportVariations> AirportVariations { get; set; }
     }

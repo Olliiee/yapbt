@@ -7,7 +7,7 @@
     <ProjectGuid>{8192E95A-AF42-47B5-A388-97432C95D23B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>org.strausshome.yapbt.YapbtHandle</RootNamespace>
+    <RootNamespace>Org.Strausshome.Yapbt.YapbtHandle</RootNamespace>
     <AssemblyName>YapbtHandle</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

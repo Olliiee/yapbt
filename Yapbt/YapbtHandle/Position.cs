@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using org.strausshome.yapbt.DataConnection;
+using Org.Strausshome.Yapbt.DataConnection;
 
-namespace org.strausshome.yapbt.YapbtHandle
+namespace Org.Strausshome.Yapbt.YapbtHandle
 {
     /// <summary>
     /// This class handles all position data.

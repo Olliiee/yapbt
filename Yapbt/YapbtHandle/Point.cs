@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using org.strausshome.yapbt.DataConnection;
+using Org.Strausshome.Yapbt.DataConnection;
 
-namespace org.strausshome.yapbt.YapbtHandle
+namespace Org.Strausshome.Yapbt.YapbtHandle
 {
     /// <summary>
     /// This class handles all pushback points.
@@ -67,10 +67,8 @@ namespace org.strausshome.yapbt.YapbtHandle
                         return true;
                     }
                 }
-                else
-                {
-                    return false;
-                }
+
+                return false;
             }
             catch (Exception)
             {
