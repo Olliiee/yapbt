@@ -13,6 +13,27 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
         #region Variation
 
         /// <summary>
+        /// Return a variation list by a specific airport code.
+        /// </summary>
+        /// <param name="icaoCode">The airport we are looking for.</param>
+        /// <returns>Returns a list of variation objects.</returns>
+        public List<AirportVariations> VariationsByAirport(string icaoCode)
+        {
+            using (var db = new YapbtDbEntities())
+            {
+                try
+                {
+                    return db.AirportVariations.Where(c => c.Airport.icao == icaoCode).ToList();
+                }
+                catch (Exception)
+                {
+                    return null;
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
         /// Add a new airport variation by object.
         /// </summary>
         /// <param name="airport">The airport object to add.</param>
@@ -93,7 +114,7 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
             {
                 try
                 {
-                    addVariation(variationName, airport, db);
+                    AddVariation(variationName, airport, db);
 
                     // Adding the positions to the db.
                     Position position = new Position();
@@ -158,7 +179,7 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
             }
         }
 
-        private static void addVariation(string variationName, Airport airport, YapbtDbEntities db)
+        static void AddVariation(string variationName, Airport airport, YapbtDbEntities db)
         {
             // Create a new variation, add the data and safe it.
             AirportVariations variation = new AirportVariations();
@@ -172,7 +193,7 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
             db.SaveChanges();
         }
 
-        private List<AirportPushPoints> RemovePoints(List<AirportPushPoints> pointList, AirportPushBackPath pathToRemove)
+        List<AirportPushPoints> RemovePoints(List<AirportPushPoints> pointList, AirportPushBackPath pathToRemove)
         {
             var pointsToRemoveList = pointList.Where(c => c.AirportPushBackPath == pathToRemove).ToList();
 

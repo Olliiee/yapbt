@@ -10,5 +10,12 @@
             ResetError,
             ResetOk
         };
+
+        public enum FsVersion
+        {
+            Fs9,
+            FsX,
+            None
+        };
     }
 }
