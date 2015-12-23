@@ -8,7 +8,8 @@
             Error,
             ImportError,
             ResetError,
-            ResetOk
+            ResetOk,
+            ErrorXml
         };
 
         public enum FsVersion
