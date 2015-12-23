@@ -34,8 +34,8 @@ namespace Org.Strausshome.Yapbt.DataReader
                             + "[Name] VARCHAR(10)  NOT NULL,"
                             + "[Index] INTEGER  NOT NULL,"
                             + "[Number] INTEGER  NOT NULL,"
-                            + "[Latitude] FLOAT  NOT NULL,"
-                            + "[Longitude] FLOAT  NOT NULL"
+                            + "[Latitude] REAL  NOT NULL,"
+                            + "[Longitude] REAL  NOT NULL"
                             + ");";
 
                     db.Database.ExecuteSqlCommand(sql);
@@ -43,16 +43,16 @@ namespace Org.Strausshome.Yapbt.DataReader
                     sql = "CREATE TABLE [TempPoint] ("
                             + "[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,"
                             + "[Index] INTEGER  NOT NULL,"
-                            + "[Latitude] FLOAT  NOT NULL,"
-                            + "[Longitude] FLOAT  NOT NULL"
+                            + "[Latitude] REAL  NOT NULL,"
+                            + "[Longitude] REAL  NOT NULL"
                             + "); ";
 
                     db.Database.ExecuteSqlCommand(sql);
 
                     sql = "CREATE TABLE [TempTaxiway] ("
                             + "[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,"
-                            + "[From] INTEGER  NOT NULL,"
-                            + "[To] INTEGER  NOT NULL"
+                            + "[FromPoint] INTEGER  NOT NULL,"
+                            + "[ToPoint] INTEGER  NOT NULL"
                             + "); ";
 
                     db.Database.ExecuteSqlCommand(sql);
