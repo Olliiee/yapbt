@@ -13,7 +13,7 @@ namespace Org.Strausshome.Yapbt.DataConnection
     {
         public long id { get; set; }
         public string Name { get; set; }
-        public long Bglid { get; set; }
+        public long Index { get; set; }
         public long Number { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }

@@ -9,8 +9,9 @@
 
 namespace Org.Strausshome.Yapbt.DataConnection
 {
+    using System;
     using System.Collections.Generic;
-
+    
     public partial class AirportPushBackPath
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -18,12 +19,12 @@ namespace Org.Strausshome.Yapbt.DataConnection
         {
             this.AirportPushPoints = new HashSet<AirportPushPoints>();
         }
-
+    
         public System.Guid pushbackpathid { get; set; }
         public string facing { get; set; }
         public System.Guid positionid { get; set; }
         public System.DateTime cts { get; set; }
-
+    
         public virtual AirportPositions AirportPositions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AirportPushPoints> AirportPushPoints { get; set; }

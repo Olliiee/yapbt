@@ -56,7 +56,7 @@ FOREIGN KEY(pushbackpathid) REFERENCES AirportPushBackPath(pushbackpathid)
 CREATE TABLE [TempParking] (
 [id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
 [Name] VARCHAR(10)  NOT NULL,
-[Bglid] INTEGER  NOT NULL,
+[Index] INTEGER  NOT NULL,
 [Number] INTEGER  NOT NULL,
 [Latitude] FLOAT  NOT NULL,
 [Longitude] FLOAT  NOT NULL
@@ -76,3 +76,13 @@ CREATE TABLE [TempTaxiway] (
 FOREIGN KEY(FromPoint) REFERENCES TempPoint(Bglid),
 FOREIGN KEY(ToPoint) REFERENCES TempPoint(Bglid)
 );
+
+
+
+-- Configuration Table
+CREATE TABLE [Configuration] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+[Setting] VARCHAR(255)  NOT NULL,
+[Value] VARCHAR(255)  NOT NULL,
+[Module] VARCHAR(24)  NOT NULL
+)

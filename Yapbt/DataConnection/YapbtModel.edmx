@@ -54,6 +54,15 @@
           <Property Name="variationname" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="cts" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Setting" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Module" Type="varchar" MaxLength="24" Nullable="false" />
+        </EntityType>
         <EntityType Name="TempParking">
           <Key>
             <PropertyRef Name="id" />
@@ -142,6 +151,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
           <EntitySet Name="AirportPushBackPath" EntityType="Self.AirportPushBackPath" store:Type="Tables" />
           <EntitySet Name="AirportPushPoints" EntityType="Self.AirportPushPoints" store:Type="Tables" />
           <EntitySet Name="AirportVariations" EntityType="Self.AirportVariations" store:Type="Tables" />
+          <EntitySet Name="Configuration" EntityType="Self.Configuration" store:Type="Tables" />
           <EntitySet Name="TempParking" EntityType="Self.TempParking" store:Type="Tables" />
           <EntitySet Name="TempPoint" EntityType="Self.TempPoint" store:Type="Tables" />
           <EntitySet Name="TempTaxiway" EntityType="Self.TempTaxiway" store:Type="Tables" />
@@ -223,6 +233,15 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
           <Property Name="cts" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Airport" Relationship="Self.FK_AirportVariations_0_0" FromRole="AirportVariations" ToRole="Airport" />
           <NavigationProperty Name="AirportPositions" Relationship="Self.FK_AirportPositions_0_0" FromRole="AirportVariations" ToRole="AirportPositions" />
+        </EntityType>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Setting" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Module" Type="String" MaxLength="24" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="TempParking">
           <Key>
@@ -306,6 +325,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
           <EntitySet Name="AirportPushBackPath" EntityType="Self.AirportPushBackPath" />
           <EntitySet Name="AirportPushPoints" EntityType="Self.AirportPushPoints" />
           <EntitySet Name="AirportVariations" EntityType="Self.AirportVariations" />
+          <EntitySet Name="Configuration" EntityType="Self.Configuration" />
           <EntitySet Name="TempParking" EntityType="Self.TempParking" />
           <EntitySet Name="TempPoint" EntityType="Self.TempPoint" />
           <EntitySet Name="TempTaxiway" EntityType="Self.TempTaxiway" />
@@ -383,6 +403,16 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
                 <ScalarProperty Name="airportid" ColumnName="airportid" />
                 <ScalarProperty Name="variationname" ColumnName="variationname" />
                 <ScalarProperty Name="cts" ColumnName="cts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configuration">
+            <EntityTypeMapping TypeName="YapbtDbModel.Configuration">
+              <MappingFragment StoreEntitySet="Configuration">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Setting" ColumnName="Setting" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Module" ColumnName="Module" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
