@@ -9,6 +9,9 @@
 
 namespace Org.Strausshome.Yapbt.DataConnection
 {
+    using System;
+    using System.Collections.Generic;
+    
     public partial class TempParking
     {
         public long id { get; set; }

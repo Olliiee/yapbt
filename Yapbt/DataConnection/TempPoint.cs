@@ -15,7 +15,7 @@ namespace Org.Strausshome.Yapbt.DataConnection
     public partial class TempPoint
     {
         public long id { get; set; }
-        public long Bglid { get; set; }
+        public long Index { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
     }

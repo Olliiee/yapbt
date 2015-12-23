@@ -69,7 +69,7 @@
           </Key>
           <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="Bglid" Type="integer" Nullable="false" />
+          <Property Name="Index" Type="integer" Nullable="false" />
           <Property Name="Number" Type="integer" Nullable="false" />
           <Property Name="Latitude" Type="real" Nullable="false" />
           <Property Name="Longitude" Type="real" Nullable="false" />
@@ -79,7 +79,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Bglid" Type="integer" Nullable="false" />
+          <Property Name="Index" Type="integer" Nullable="false" />
           <Property Name="Latitude" Type="real" Nullable="false" />
           <Property Name="Longitude" Type="real" Nullable="false" />
         </EntityType>
@@ -139,12 +139,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TempTaxiway_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="FK_TempTaxiway_0_0" />-->
-        <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="FK_TempTaxiway_1_0" />-->
         <EntityContainer Name="YapbtDbModelStoreContainer">
           <EntitySet Name="Airport" EntityType="Self.Airport" store:Type="Tables" />
           <EntitySet Name="AirportPositions" EntityType="Self.AirportPositions" store:Type="Tables" />
@@ -249,7 +243,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Bglid" Type="Int64" Nullable="false" />
+          <Property Name="Index" Type="Int64" Nullable="false" />
           <Property Name="Number" Type="Int64" Nullable="false" />
           <Property Name="Latitude" Type="Double" Nullable="false" />
           <Property Name="Longitude" Type="Double" Nullable="false" />
@@ -259,7 +253,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Bglid" Type="Int64" Nullable="false" />
+          <Property Name="Index" Type="Int64" Nullable="false" />
           <Property Name="Latitude" Type="Double" Nullable="false" />
           <Property Name="Longitude" Type="Double" Nullable="false" />
         </EntityType>
@@ -421,7 +415,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
               <MappingFragment StoreEntitySet="TempParking">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Bglid" ColumnName="Bglid" />
+                <ScalarProperty Name="Index" ColumnName="Index" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
@@ -432,7 +426,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
             <EntityTypeMapping TypeName="YapbtDbModel.TempPoint">
               <MappingFragment StoreEntitySet="TempPoint">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Bglid" ColumnName="Bglid" />
+                <ScalarProperty Name="Index" ColumnName="Index" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
               </MappingFragment>
