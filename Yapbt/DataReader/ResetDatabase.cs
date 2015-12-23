@@ -20,60 +20,49 @@ namespace Org.Strausshome.Yapbt.DataReader
                 {
                     // Drop the table.
                     string sql = "DROP TABLE [TempParking];";
-                    db.TempParking.SqlQuery(sql);
+                    db.Database.ExecuteSqlCommand(sql);
 
                     sql = "DROP TABLE [TempPoint];";
-                    db.TempParking.SqlQuery(sql);
+                    db.Database.ExecuteSqlCommand(sql);
 
-                    sql = "DROP TABLE [TempParking];";
-                    db.TempParking.SqlQuery(sql);
+                    sql = "DROP TABLE [TempTaxiway];";
+                    db.Database.ExecuteSqlCommand(sql);
 
                     // Recreate the table.
                     sql = "CREATE TABLE [TempParking] ("
-                            + "[id] bigint NOT NULL"
-                            + ", [Name] nvarchar(10) NOT NULL"
-                            + ", [Index] bigint NOT NULL"
-                            + ", [Number]"
-                            + " bigint NOT NULL"
-                            + ", [Latitude]"
-                            + " float NOT NULL"
-                            + ", [LONGITUDE]"
-                            + " float NOT NULL"
-                            + ", CONSTRAINT[sqlite_master_PK_TempParking] PRIMARY KEY([id])"
+                            + "[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                            + "[Name] VARCHAR(10)  NOT NULL,"
+                            + "[Index] INTEGER  NOT NULL,"
+                            + "[Number] INTEGER  NOT NULL,"
+                            + "[Latitude] FLOAT  NOT NULL,"
+                            + "[Longitude] FLOAT  NOT NULL"
                             + ");";
 
-                    db.TempParking.SqlQuery(sql);
+                    db.Database.ExecuteSqlCommand(sql);
 
                     sql = "CREATE TABLE [TempPoint] ("
-                            + "[id] bigint NOT NULL"
-                            + ", [Index]"
-                            + " bigint NOT NULL"
-                            + ", [Latitude]"
-                            + " float NOT NULL"
-                            + ", [Longitude]"
-                            + " float NOT NULL"
-                            + ", CONSTRAINT[sqlite_master_PK_TempPoint] PRIMARY KEY([id])"
+                            + "[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                            + "[Index] INTEGER  NOT NULL,"
+                            + "[Latitude] FLOAT  NOT NULL,"
+                            + "[Longitude] FLOAT  NOT NULL"
                             + "); ";
 
-                    db.TempParking.SqlQuery(sql);
+                    db.Database.ExecuteSqlCommand(sql);
 
                     sql = "CREATE TABLE [TempTaxiway] ("
-                            + "[id]"
-                            + " bigint NOT NULL"
-                            + ", [From]"
-                            + " bigint NOT NULL"
-                            + ", [To]"
-                            + " bigint NOT NULL"
-                            + ", CONSTRAINT[sqlite_master_PK_TempTaxiway] PRIMARY KEY([id])"
+                            + "[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                            + "[From] INTEGER  NOT NULL,"
+                            + "[To] INTEGER  NOT NULL"
                             + "); ";
 
-                    db.TempParking.SqlQuery(sql);
+                    db.Database.ExecuteSqlCommand(sql);
                 }
 
                 return ReturnCodes.Codes.ResetOk;
             }
             catch (System.Exception)
             {
+                throw;
                 return ReturnCodes.Codes.ResetError;
             }
         }
