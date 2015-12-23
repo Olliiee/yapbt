@@ -25,7 +25,7 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
                 {
                     return db.AirportVariations.Where(c => c.Airport.icao == icaoCode).ToList();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     return null;
                     throw;
@@ -46,7 +46,7 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
                 {
                     db.AirportVariations.Add(airport);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     return false;
                     throw;
