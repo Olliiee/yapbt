@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="YapbtDbModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=M:\Dev\privat\YAPBT2\Database\YapbtDb.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="YapbtDbModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=M:\Dev\privat\YAPBT2\Database\YapbtDb.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Airport">
           <Key>
             <PropertyRef Name="airportid" />
@@ -50,9 +50,19 @@
             <PropertyRef Name="variationid" />
           </Key>
           <Property Name="variationid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="airportid" Type="integer" Nullable="false" />
-          <Property Name="variationname" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="cts" Type="datetime" Nullable="false" />
+          <Property Name="airportid" Type="integer" />
+          <Property Name="variationname" Type="varchar" MaxLength="150" />
+          <Property Name="cts" Type="datetime" />
+          <Property Name="bglfile" Type="varchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Setting" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="255" />
+          <Property Name="Module" Type="varchar" MaxLength="24" Nullable="false" />
         </EntityType>
         <EntityType Name="TempParking">
           <Key>
@@ -60,7 +70,7 @@
           </Key>
           <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="Bglid" Type="integer" Nullable="false" />
+          <Property Name="Index" Type="integer" Nullable="false" />
           <Property Name="Number" Type="integer" Nullable="false" />
           <Property Name="Latitude" Type="real" Nullable="false" />
           <Property Name="Longitude" Type="real" Nullable="false" />
@@ -70,7 +80,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Bglid" Type="integer" Nullable="false" />
+          <Property Name="Index" Type="integer" Nullable="false" />
           <Property Name="Latitude" Type="real" Nullable="false" />
           <Property Name="Longitude" Type="real" Nullable="false" />
         </EntityType>
@@ -118,30 +128,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AirportVariations_0_0">
-          <End Role="Airport" Type="Self.Airport" Multiplicity="1" />
-          <End Role="AirportVariations" Type="Self.AirportVariations" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Airport">
-              <PropertyRef Name="airportid" />
-            </Principal>
-            <Dependent Role="AirportVariations">
-              <PropertyRef Name="airportid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TempTaxiway_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="FK_TempTaxiway_0_0" />-->
-        <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="FK_TempTaxiway_1_0" />-->
         <EntityContainer Name="YapbtDbModelStoreContainer">
           <EntitySet Name="Airport" EntityType="Self.Airport" store:Type="Tables" />
           <EntitySet Name="AirportPositions" EntityType="Self.AirportPositions" store:Type="Tables" />
           <EntitySet Name="AirportPushBackPath" EntityType="Self.AirportPushBackPath" store:Type="Tables" />
           <EntitySet Name="AirportPushPoints" EntityType="Self.AirportPushPoints" store:Type="Tables" />
           <EntitySet Name="AirportVariations" EntityType="Self.AirportVariations" store:Type="Tables" />
+          <EntitySet Name="Configuration" EntityType="Self.Configuration" store:Type="Tables" />
           <EntitySet Name="TempParking" EntityType="Self.TempParking" store:Type="Tables" />
           <EntitySet Name="TempPoint" EntityType="Self.TempPoint" store:Type="Tables" />
           <EntitySet Name="TempTaxiway" EntityType="Self.TempTaxiway" store:Type="Tables" />
@@ -157,13 +150,8 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
             <End Role="AirportPushBackPath" EntitySet="AirportPushBackPath" />
             <End Role="AirportPushPoints" EntitySet="AirportPushPoints" />
           </AssociationSet>
-          <AssociationSet Name="FK_AirportVariations_0_0" Association="Self.FK_AirportVariations_0_0">
-            <End Role="Airport" EntitySet="Airport" />
-            <End Role="AirportVariations" EntitySet="AirportVariations" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="YapbtDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -223,6 +211,16 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
           <Property Name="cts" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Airport" Relationship="Self.FK_AirportVariations_0_0" FromRole="AirportVariations" ToRole="Airport" />
           <NavigationProperty Name="AirportPositions" Relationship="Self.FK_AirportPositions_0_0" FromRole="AirportVariations" ToRole="AirportPositions" />
+          <Property Name="bglfile" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Setting" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Module" Type="String" MaxLength="24" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="TempParking">
           <Key>
@@ -230,7 +228,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Bglid" Type="Int64" Nullable="false" />
+          <Property Name="Index" Type="Int64" Nullable="false" />
           <Property Name="Number" Type="Int64" Nullable="false" />
           <Property Name="Latitude" Type="Double" Nullable="false" />
           <Property Name="Longitude" Type="Double" Nullable="false" />
@@ -240,7 +238,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Bglid" Type="Int64" Nullable="false" />
+          <Property Name="Index" Type="Int64" Nullable="false" />
           <Property Name="Latitude" Type="Double" Nullable="false" />
           <Property Name="Longitude" Type="Double" Nullable="false" />
         </EntityType>
@@ -306,6 +304,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
           <EntitySet Name="AirportPushBackPath" EntityType="Self.AirportPushBackPath" />
           <EntitySet Name="AirportPushPoints" EntityType="Self.AirportPushPoints" />
           <EntitySet Name="AirportVariations" EntityType="Self.AirportVariations" />
+          <EntitySet Name="Configuration" EntityType="Self.Configuration" />
           <EntitySet Name="TempParking" EntityType="Self.TempParking" />
           <EntitySet Name="TempPoint" EntityType="Self.TempPoint" />
           <EntitySet Name="TempTaxiway" EntityType="Self.TempTaxiway" />
@@ -379,10 +378,21 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
           <EntitySetMapping Name="AirportVariations">
             <EntityTypeMapping TypeName="YapbtDbModel.AirportVariations">
               <MappingFragment StoreEntitySet="AirportVariations">
+                <ScalarProperty Name="bglfile" ColumnName="bglfile" />
                 <ScalarProperty Name="variationid" ColumnName="variationid" />
                 <ScalarProperty Name="airportid" ColumnName="airportid" />
                 <ScalarProperty Name="variationname" ColumnName="variationname" />
                 <ScalarProperty Name="cts" ColumnName="cts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configuration">
+            <EntityTypeMapping TypeName="YapbtDbModel.Configuration">
+              <MappingFragment StoreEntitySet="Configuration">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Setting" ColumnName="Setting" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Module" ColumnName="Module" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -391,7 +401,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
               <MappingFragment StoreEntitySet="TempParking">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Bglid" ColumnName="Bglid" />
+                <ScalarProperty Name="Index" ColumnName="Index" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
@@ -402,7 +412,7 @@ warning 6035: The relationship 'FK_TempTaxiway_1_0' has columns that are not par
             <EntityTypeMapping TypeName="YapbtDbModel.TempPoint">
               <MappingFragment StoreEntitySet="TempPoint">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Bglid" ColumnName="Bglid" />
+                <ScalarProperty Name="Index" ColumnName="Index" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
               </MappingFragment>

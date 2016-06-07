@@ -7,8 +7,13 @@
             Ok,
             Error,
             ImportError,
+            ImportOk,
             ResetError,
-            ResetOk
+            ResetOk,
+            XmlError,
+            ConvertNoFileExistsError,
+            ConvertError,
+            ConvertOk
         };
 
         public enum FsVersion

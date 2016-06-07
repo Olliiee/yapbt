@@ -34,7 +34,6 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
         }
 
 
-
         /// <summary>
         /// Remove all positions of an variation.
         /// </summary>

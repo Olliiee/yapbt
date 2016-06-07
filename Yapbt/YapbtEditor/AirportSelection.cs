@@ -20,6 +20,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
 
             this.Code = ReturnCodes.FsVersion.None;
             this.AddNewVariation = false;
+            this.DialogResult = DialogResult.Cancel;
         }
 
         #endregion Public Constructors
@@ -51,6 +52,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                 // A FS version was selected?
                 if (Code != ReturnCodes.FsVersion.None)
                 {
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
@@ -67,6 +69,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                 && VariationList.Text != "Select a variation")
             {
                 this.AddNewVariation = false;
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
 
@@ -82,6 +85,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                 {
                     this.VariatioName = NewVariationName.Text;
                     this.AddNewVariation = true;
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
 
@@ -90,6 +94,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                 {
                     this.VariatioName = VariationList.Text;
                     this.AddNewVariation = false;
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
             }
@@ -118,9 +123,12 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
             var loadedVariationList = variation.VariationsByAirport(IcaoList.Text);
 
             // Add the variations to the list.
-            foreach (var item in loadedVariationList)
+                if (loadedVariationList != null)
             {
-                VariationList.Items.Add(item.variationname);
+                foreach (var item in loadedVariationList)
+                {
+                    VariationList.Items.Add(item.variationname);
+                }
             }
 
             this.IcaoCode = IcaoList.Text;

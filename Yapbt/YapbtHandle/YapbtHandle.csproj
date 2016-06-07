@@ -42,14 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Position.cs" />
+    <Compile Include="TempDb.cs" />
     <Compile Include="Variation.cs" />
     <Compile Include="YapbtDataHandling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Codes\Codes.csproj">
+      <Project>{84763fc4-1e66-43e5-b8ca-40f20be65c94}</Project>
+      <Name>Codes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataConnection\DataConnection.csproj">
       <Project>{e07b5ef7-e489-43f1-bb55-dfdfe4605824}</Project>
       <Name>DataConnection</Name>

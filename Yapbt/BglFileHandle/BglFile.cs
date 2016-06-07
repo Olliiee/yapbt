@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using Org.Strausshome.Yapbt.Codes;
 
 namespace Org.Strausshome.Yapbt.BglFileHandle
 {
@@ -18,7 +19,7 @@ namespace Org.Strausshome.Yapbt.BglFileHandle
         /// <param name="bglFile">Where is the bgl file to convert.</param>
         /// <param name="xmlFile">Where to write the output xml file.</param>
         /// <returns>True ok; False something went wrong no xml file created.</returns>
-        public bool ConevertBglFile(string bglTool, string bglFile, string xmlFile)
+        public ReturnCodes.Codes ConevertBglFile(string bglTool, string bglFile, string xmlFile)
         {
             try
             {
@@ -49,14 +50,18 @@ namespace Org.Strausshome.Yapbt.BglFileHandle
                     P.StartInfo.Arguments = BglArguments;
                     P.Start();
                     P.WaitForExit();
-                    return true;
+
+                    if (File.Exists(xmlFile))
+                    {
+                        return ReturnCodes.Codes.Ok;
+                    }
                 }
 
-                return false;
+                return ReturnCodes.Codes.ConvertNoFileExistsError;
             }
             catch
             {
-                return false;
+                return ReturnCodes.Codes.ConvertError;
             }
         }
 

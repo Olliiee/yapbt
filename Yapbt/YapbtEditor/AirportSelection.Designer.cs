@@ -11134,6 +11134,7 @@
             this.Name = "AirportSelection";
             this.ShowIcon = false;
             this.Text = "Select an airport";
+            this.TopMost = true;
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.NewVariationBox.ResumeLayout(false);
