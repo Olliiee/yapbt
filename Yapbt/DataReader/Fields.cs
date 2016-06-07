@@ -5,12 +5,12 @@
         /// <summary>
         /// Gets or sets the bgl file path.
         /// </summary>
-        public string BglFilePath { get; set; }
+        public string inputFilePath { get; set; }
 
         /// <summary>
         /// Get or sets the xml file path.
         /// </summary>
-        public string XmlFilePath { get; set; }
+        public string outputFilePath { get; set; }
 
         /// <summary>
         /// Gets or sets the BGL converter tool path.

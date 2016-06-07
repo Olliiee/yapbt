@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Org.Strausshome.Yapbt.BglFileHandle;
@@ -25,76 +26,35 @@ namespace Org.Strausshome.Yapbt.DataReader
         /// <summary>
         /// Converts and reads a bgl file.
         /// </summary>
-        /// <param name="bglFilePath">Location of the bgl file.</param>
-        /// <param name="xmlFilePath">Location of the XML file.</param>
+        /// <param name="inputFilePath">Location of the bgl file.</param>
+        /// <param name="outputFilePath">Location of the XML file.</param>
         /// <param name="bglToolPath">Location of the bgl converter tool.</param>
         /// <returns>Returns a code about the status.</returns>
-        public ReturnCodes.Codes ConvertAndReadBgl(string bglFilePath, string xmlFilePath, string bglToolPath)
+        public ReturnCodes.Codes ConvertAndResetDb(string bglToolPath, string inputFilePath, string outputFilePath)
         {
             BglFile bgl = new BglFile();
 
-            this.fields.BglFilePath = bglFilePath;
+            this.fields.inputFilePath = inputFilePath;
             this.fields.BglToolPath = bglToolPath;
-            this.fields.XmlFilePath = xmlFilePath;
+            this.fields.outputFilePath = outputFilePath;
 
-            if (bgl.ConevertBglFile(this.fields.BglToolPath, this.fields.BglFilePath, this.fields.XmlFilePath))
+            ReturnCodes.Codes code = ReturnCodes.Codes.Ok;
+
+            if (Path.GetExtension(inputFilePath).ToLower() == ".bgl")
+            {
+                code = bgl.ConevertBglFile(this.fields.BglToolPath, this.fields.inputFilePath, this.fields.outputFilePath);
+            }
+
+            if (code == ReturnCodes.Codes.Ok)
             {
                 ResetDatabase dbReset = new ResetDatabase();
 
-                if (dbReset.ResetTempDatabase() == Codes.ReturnCodes.Codes.ResetOk)
-                {
-                    if (this.StoreParkingPos() == ReturnCodes.Codes.Ok)
-                    {
-                        if (this.StoreTaxiway() == ReturnCodes.Codes.Ok)
-                        {
-                            if (this.StorePoints() == ReturnCodes.Codes.Ok)
-                            {
-                                return ReturnCodes.Codes.Ok;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    return ReturnCodes.Codes.ResetError;
-                }
-
+                code = dbReset.ResetTempDatabase();
             }
 
-            return ReturnCodes.Codes.Error;
+            return code;
         }
 
-        /// <summary>
-        /// Just read the xml file.
-        /// </summary>
-        /// <param name="xmlFilePath">The path to the xml file.</param>
-        /// <returns>Returns a code about the status.</returns>
-        public ReturnCodes.Codes ConvertAndReadBgl(string xmlFilePath)
-        {
-            this.fields.XmlFilePath = xmlFilePath;
-
-            ResetDatabase dbReset = new ResetDatabase();
-
-            if (dbReset.ResetTempDatabase() == Codes.ReturnCodes.Codes.ResetOk)
-            {
-                if (this.StoreParkingPos() == ReturnCodes.Codes.Ok)
-                {
-                    if (this.StoreTaxiway() == ReturnCodes.Codes.Ok)
-                    {
-                        if (this.StorePoints() == ReturnCodes.Codes.Ok)
-                        {
-                            return ReturnCodes.Codes.Ok;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                return ReturnCodes.Codes.ResetError;
-            }
-
-            return ReturnCodes.Codes.Error;
-        }
 
         #endregion Public Methods
 
@@ -104,10 +64,10 @@ namespace Org.Strausshome.Yapbt.DataReader
         /// Saving all points of the bgl file into the db.
         /// </summary>
         /// <returns>Returns a code about the status.</returns>
-        private ReturnCodes.Codes StorePoints()
+        public ReturnCodes.Codes StorePoints()
         {
             // Load the xml file.
-            XDocument xmlDoc = XDocument.Load(this.fields.XmlFilePath);
+            XDocument xmlDoc = XDocument.Load(this.fields.outputFilePath);
 
             IEnumerable<XElement> TaxiwayPoints = null;
 
@@ -123,7 +83,7 @@ namespace Org.Strausshome.Yapbt.DataReader
             }
             catch (Exception)
             {
-                return ReturnCodes.Codes.ErrorXml;
+                return ReturnCodes.Codes.XmlError;
             }
 
             try
@@ -158,17 +118,17 @@ namespace Org.Strausshome.Yapbt.DataReader
                 return ReturnCodes.Codes.ImportError;
             }
 
-            return ReturnCodes.Codes.Ok;
+            return ReturnCodes.Codes.ImportOk;
         }
 
         /// <summary>
         /// Saving all taxiways of the bgl file into the db.
         /// </summary>
         /// <returns>Returns a code about the status.</returns>
-        private ReturnCodes.Codes StoreTaxiway()
+        public ReturnCodes.Codes StoreTaxiway()
         {
             // Load the xml file.
-            XDocument xmlDoc = XDocument.Load(this.fields.XmlFilePath);
+            XDocument xmlDoc = XDocument.Load(this.fields.outputFilePath);
 
             IEnumerable<XElement> TaxiwayPaths = null;
 
@@ -185,7 +145,7 @@ namespace Org.Strausshome.Yapbt.DataReader
             catch (Exception)
             {
                 // Something went wrong, returning an error code.
-                return ReturnCodes.Codes.ErrorXml;
+                return ReturnCodes.Codes.XmlError;
             }
 
             try
@@ -211,7 +171,7 @@ namespace Org.Strausshome.Yapbt.DataReader
                 return ReturnCodes.Codes.ImportError;
             }
 
-            return ReturnCodes.Codes.Ok;
+            return ReturnCodes.Codes.ImportOk;
         }
 
         #endregion Private Methods
@@ -222,10 +182,10 @@ namespace Org.Strausshome.Yapbt.DataReader
         /// Saving all parking positions of the bgl file into the db.
         /// </summary>
         /// <returns>Returns a code about the status.</returns>
-        private ReturnCodes.Codes StoreParkingPos()
+        public ReturnCodes.Codes StoreParkingPos()
         {
             // Load the xml file.
-            XDocument xmlDoc = XDocument.Load(this.fields.XmlFilePath);
+            XDocument xmlDoc = XDocument.Load(this.fields.outputFilePath);
 
             IEnumerable<XElement> ParkingPositions = null;
 
@@ -242,7 +202,7 @@ namespace Org.Strausshome.Yapbt.DataReader
             catch (Exception)
             {
                 // Something went wrong, returning an error code.
-                return ReturnCodes.Codes.ErrorXml;
+                return ReturnCodes.Codes.XmlError;
             }
 
             try
@@ -281,7 +241,7 @@ namespace Org.Strausshome.Yapbt.DataReader
                 return ReturnCodes.Codes.ImportError;
             }
 
-            return ReturnCodes.Codes.Ok;
+            return ReturnCodes.Codes.ImportOk;
         }
 
         #endregion Private Methods

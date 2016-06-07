@@ -7,20 +7,12 @@ DROP TABLE TempParking;
 DROP TABLE TempPoint;
 DROP TABLE TempTaxiway;
 
--- Creating the tables
---CREATE TABLE [Airport] (
---[airportid] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
---[name] varchar(150)  NOT NULL,
---[icao] varchar(4)  NOT NULL,
---[latitude] float  NOT NULL,
---[longitude] float  NOT NULL
---);
-
 CREATE TABLE [AirportVariations] (
 variationid guid NOT NULL PRIMARY KEY,
 airportid integer not null,
 variationname varchar(150)  NOT NULL,
 cts datetime  NOT NULL,
+[bglfile] VARCHAR(128)  NULL,
 FOREIGN KEY(airportid) REFERENCES Airport(airportid)
 );
 
@@ -64,7 +56,7 @@ CREATE TABLE [TempParking] (
 
 CREATE TABLE [TempPoint] (
 [id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
-[Bglid] INTEGER  NOT NULL,
+[Index] INTEGER  NOT NULL,
 [Latitude] REAL  NOT NULL,
 [Longitude] REAL  NOT NULL
 );
@@ -76,3 +68,16 @@ CREATE TABLE [TempTaxiway] (
 FOREIGN KEY(FromPoint) REFERENCES TempPoint(Bglid),
 FOREIGN KEY(ToPoint) REFERENCES TempPoint(Bglid)
 );
+
+-- Configuration Part
+CREATE TABLE [Configuration] (
+[id] INTEGER DEFAULT '1' NOT NULL PRIMARY KEY AUTOINCREMENT,
+[Setting] VARCHAR(255)  NOT NULL,
+[Value] VARCHAR(255)  NULL,
+[Module] VARCHAR(24)  NOT NULL
+);
+
+INSERT INTO [Configuration]
+(Setting, Value, Module) VALUES ("bgltool", "", "config"),
+("mapsurl", "http://www.strausshome.org/olli/yapbt/maps.html", "basics"),
+("jsonurl", "http://www.strausshome.org/olli/yapbt/json.php", "basics");

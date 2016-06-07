@@ -24,6 +24,7 @@ namespace Org.Strausshome.Yapbt.DataConnection
         public long airportid { get; set; }
         public string variationname { get; set; }
         public System.DateTime cts { get; set; }
+        public string bglfile { get; set; }
     
         public virtual Airport Airport { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

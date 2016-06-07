@@ -137,6 +137,10 @@
       <Project>{228b4a70-0f32-48d5-ab1e-bc39b4b7c6b1}</Project>
       <Name>DataReader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Messages\Messages.csproj">
+      <Project>{cd7e166a-97bc-4564-863f-8143d9750eab}</Project>
+      <Name>Messages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YapbtHandle\YapbtHandle.csproj">
       <Project>{8192e95a-af42-47b5-a388-97432c95d23b}</Project>
       <Name>YapbtHandle</Name>
