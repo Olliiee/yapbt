@@ -118,7 +118,7 @@ namespace Org.Strausshome.Yapbt.DataReader
                 return ReturnCodes.Codes.ImportError;
             }
 
-            return ReturnCodes.Codes.ImportOk;
+            return ReturnCodes.Codes.ImportPointOk;
         }
 
         /// <summary>
@@ -137,9 +137,9 @@ namespace Org.Strausshome.Yapbt.DataReader
                 // Get all taxiway paths.
                 TaxiwayPaths =
                             from el in xmlDoc
-                            .Descendants("FSData")
-                            .Descendants("Airport")
-                            .Descendants("TaxiwayPath")
+                            .Elements("FSData")
+                            .Elements("Airport")
+                            .Elements("TaxiwayPath")
                             select el;
             }
             catch (Exception)
@@ -171,7 +171,7 @@ namespace Org.Strausshome.Yapbt.DataReader
                 return ReturnCodes.Codes.ImportError;
             }
 
-            return ReturnCodes.Codes.ImportOk;
+            return ReturnCodes.Codes.ImportTaxiwayOk;
         }
 
         #endregion Private Methods
@@ -241,7 +241,7 @@ namespace Org.Strausshome.Yapbt.DataReader
                 return ReturnCodes.Codes.ImportError;
             }
 
-            return ReturnCodes.Codes.ImportOk;
+            return ReturnCodes.Codes.ImportParkingPosOk;
         }
 
         #endregion Private Methods

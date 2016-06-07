@@ -42,10 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Airport.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Position.cs" />
+    <Compile Include="Taxiway.cs" />
     <Compile Include="TempDb.cs" />
     <Compile Include="Variation.cs" />
     <Compile Include="YapbtDataHandling.cs" />

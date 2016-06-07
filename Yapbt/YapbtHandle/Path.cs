@@ -14,7 +14,6 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
         /// <summary>
         /// Add a list of paths to the db.
         /// </summary>
-        /// <param name="position">The position we are using for this paths.</param>
         /// <param name="pathList">A list of paths.</param>
         /// <returns>A list of all paths that made trouble.</returns>
         public List<AirportPushBackPath> AddPathByList(List<AirportPushBackPath> pathList)

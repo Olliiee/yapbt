@@ -2,8 +2,10 @@ var map;
 var poly;
 var infoWindow = null;
 var GatesArray = [];
+var markerArray = [];
 var jsonpath = [];
 var newPath = false;
+var bounds = new google.maps.LatLngBounds();
 
 // Initialize the app
 function initialize() {
@@ -43,8 +45,6 @@ function addGate(latitude, longitude, name) {
         labelContent: name
     });
 
-
-
     google.maps.event.addListener(gate, 'dblclick', function() {
         newPath = true;
         var pbPath = poly.getPath();
@@ -75,6 +75,30 @@ function addGate(latitude, longitude, name) {
     GatesArray.push(gate);
 }
 
+// Add a taxiway as polyline to draw it on the map (BGL)
+function addTaxiway(startLat, startLng, stopLat, stopLng) {
+    var taxiwayCoordinates = [
+        new google.maps.LatLng(startLat, startLng),
+        new google.maps.LatLng(stopLat, stopLng)
+    ];
+
+    var taxiway = new google.maps.Polyline({
+        path: taxiwayCoordinates,
+        strokeColor: '#f4a460',
+        strokeOpacity: 0.7,
+        strokeWeight: 1
+    });
+
+    var newPoint = new google.maps.LatLng(startLat, startLng);
+    bounds.extend(newPoint);
+
+    taxiway.setMap(map);
+}
+
+// Fit the map to the drawed markers
+function FitToBounce() {
+    map.fitBounds(bounds);
+}
 
 
 google.maps.event.addDomListener(window, 'load', initialize);

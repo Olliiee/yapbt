@@ -17,5 +17,35 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
                 return db.TempParking.ToList();
             }
         }
+
+        /// <summary>
+        /// Load all taxiway with the necessary start and stop point.
+        /// </summary>
+        /// <returns>Returns the taxiway list.</returns>
+        public IEnumerable<Taxiway> GetTaxiways()
+        {
+            using (var db = new YapbtDbEntities())
+            {
+                // Load the complete taxiway list.
+                var taxiwayList = db.TempTaxiway.ToList();
+
+                foreach (var taxiway in taxiwayList)
+                {
+                    Taxiway resultTaxiway = new Taxiway();
+
+                    // Get the from point by it's index.
+                    resultTaxiway.FromPoint = db.TempPoint
+                        .Where(c => c.Index == taxiway.FromPoint)
+                        .FirstOrDefault();
+
+                    // Get the to point by it's index.
+                    resultTaxiway.ToPoint = db.TempPoint
+                        .Where(c => c.Index == taxiway.ToPoint)
+                        .FirstOrDefault();
+
+                    yield return resultTaxiway;
+                }
+            }
+        }
     }
 }

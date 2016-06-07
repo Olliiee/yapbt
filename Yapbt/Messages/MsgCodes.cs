@@ -20,6 +20,15 @@ namespace Org.Strausshome.Yapbt.Messages
                 case ReturnCodes.Codes.ImportOk:
                     return "Import complete.";
                     break;
+                case ReturnCodes.Codes.ImportParkingPosOk:
+                    return "Import parking position complete.";
+                    break;
+                case ReturnCodes.Codes.ImportPointOk:
+                    return "Import single point complete.";
+                    break;
+                case ReturnCodes.Codes.ImportTaxiwayOk:
+                    return "Import taxiway complete.";
+                    break;
                 case ReturnCodes.Codes.ResetError:
                     break;
                 case ReturnCodes.Codes.ResetOk:
