@@ -123,7 +123,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
             var loadedVariationList = variation.VariationsByAirport(IcaoList.Text);
 
             // Add the variations to the list.
-                if (loadedVariationList != null)
+            if (loadedVariationList != null)
             {
                 foreach (var item in loadedVariationList)
                 {

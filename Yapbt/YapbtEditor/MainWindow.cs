@@ -88,6 +88,16 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
 
         private void MainWindow_Shown(object sender, System.EventArgs e)
         {
+            // First check the connection
+            if (this.fields.Config.CheckDbConnection() == false)
+            {
+                MessageBox.Show("Unable to open the database connection. Please make sure, that the Ypabtdb.sqlite file is available in the SQLite folder.",
+                    "Error: Unable to open database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
+
+            // Still there? Let's go on.
+            // Check if bgl tool converter path is set.
             string dbValues = this.fields.Config.ReadConfig("bgltool");
             if (dbValues == string.Empty || dbValues == null)
             {
@@ -97,6 +107,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                 }
             }
 
+            // Check for the maps URL.
             dbValues = this.fields.Config.ReadConfig("mapsurl");
             if (dbValues != string.Empty && dbValues != null)
             {

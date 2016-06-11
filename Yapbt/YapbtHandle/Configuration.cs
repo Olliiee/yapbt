@@ -8,6 +8,26 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
     public class Configuration
     {
         /// <summary>
+        /// Check the database connection.
+        /// </summary>
+        /// <returns>True able to open the connection
+        /// false unable to open the connection.</returns>
+        public bool CheckDbConnection()
+        {
+            var db = new YapbtDbEntities();
+
+            try
+            {
+                db.Database.Connection.Open();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Return the needed configuration value.
         /// </summary>
         /// <param name="needle">The configuration part.</param>
