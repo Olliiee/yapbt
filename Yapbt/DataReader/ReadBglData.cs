@@ -55,7 +55,6 @@ namespace Org.Strausshome.Yapbt.DataReader
             return code;
         }
 
-
         #endregion Public Methods
 
         #region Private Methods
@@ -66,10 +65,21 @@ namespace Org.Strausshome.Yapbt.DataReader
         /// <returns>Returns a code about the status.</returns>
         public ReturnCodes.Codes StorePoints()
         {
-            // Load the xml file.
-            XDocument xmlDoc = XDocument.Load(this.fields.outputFilePath);
-
             IEnumerable<XElement> TaxiwayPoints = null;
+            XDocument xmlDoc = null;
+
+            try
+            {
+                // Load the xml file.
+                xmlDoc = XDocument.Load(this.fields.outputFilePath);
+            }
+            catch (Exception)
+            {
+                return ReturnCodes.Codes.Error;
+                throw;
+            }
+
+            
 
             try
             {
@@ -90,26 +100,31 @@ namespace Org.Strausshome.Yapbt.DataReader
             {
                 using (var db = new YapbtDbEntities())
                 {
-                    foreach (XElement TaxiPoint in TaxiwayPoints)
+                    using (var tn = db.Database.BeginTransaction())
                     {
-                        var point = new TempPoint();
+                        foreach (XElement TaxiPoint in TaxiwayPoints)
+                        {
+                            var point = new TempPoint();
 
-                        point.Index = Convert.ToInt64(TaxiPoint.Attribute("index").Value);
+                            point.Index = Convert.ToInt64(TaxiPoint.Attribute("index").Value);
 
-                        // Converting the latitude and longitude to string and double to avoid
-                        // system culture problems.
-                        string txt = TaxiPoint.Attribute("lat").Value.ToString(CultureInfo.InvariantCulture);
+                            // Converting the latitude and longitude to string and double to avoid
+                            // system culture problems.
+                            string txt = TaxiPoint.Attribute("lat").Value.ToString(CultureInfo.InvariantCulture);
 
-                        //back to a double
-                        point.Latitude = double.Parse(txt, CultureInfo.InvariantCulture);
+                            //back to a double
+                            point.Latitude = double.Parse(txt, CultureInfo.InvariantCulture);
 
-                        txt = TaxiPoint.Attribute("lon").Value.ToString(CultureInfo.InvariantCulture);
+                            txt = TaxiPoint.Attribute("lon").Value.ToString(CultureInfo.InvariantCulture);
 
-                        //back to a double
-                        point.Longitude = double.Parse(txt, CultureInfo.InvariantCulture);
+                            //back to a double
+                            point.Longitude = double.Parse(txt, CultureInfo.InvariantCulture);
 
-                        db.TempPoint.Add(point);
-                        db.SaveChanges();
+                            db.TempPoint.Add(point);
+                            db.SaveChanges();
+                        }
+
+                        tn.Commit();
                     }
                 }
             }
@@ -127,10 +142,21 @@ namespace Org.Strausshome.Yapbt.DataReader
         /// <returns>Returns a code about the status.</returns>
         public ReturnCodes.Codes StoreTaxiway()
         {
-            // Load the xml file.
-            XDocument xmlDoc = XDocument.Load(this.fields.outputFilePath);
-
             IEnumerable<XElement> TaxiwayPaths = null;
+            XDocument xmlDoc = null;
+
+            try
+            {
+                // Load the xml file.
+                xmlDoc = XDocument.Load(this.fields.outputFilePath);
+            }
+            catch (Exception)
+            {
+                return ReturnCodes.Codes.Error;
+                throw;
+            }
+
+            
 
             try
             {
@@ -152,16 +178,21 @@ namespace Org.Strausshome.Yapbt.DataReader
             {
                 using (var db = new YapbtDbEntities())
                 {
-                    // Reading all xml elements add the data to an object and save into the sqlite db.
-                    foreach (XElement TaxiwayPath in TaxiwayPaths)
+                    using (var tn = db.Database.BeginTransaction())
                     {
-                        var path = new TempTaxiway();
+                        // Reading all xml elements add the data to an object and save into the sqlite db.
+                        foreach (XElement TaxiwayPath in TaxiwayPaths)
+                        {
+                            var path = new TempTaxiway();
 
-                        path.FromPoint = Convert.ToInt64(TaxiwayPath.Attribute("start").Value);
-                        path.ToPoint = Convert.ToInt64(TaxiwayPath.Attribute("end").Value);
+                            path.FromPoint = Convert.ToInt64(TaxiwayPath.Attribute("start").Value);
+                            path.ToPoint = Convert.ToInt64(TaxiwayPath.Attribute("end").Value);
 
-                        db.TempTaxiway.Add(path);
-                        db.SaveChanges();
+                            db.TempTaxiway.Add(path);
+                            db.SaveChanges();
+                        }
+
+                        tn.Commit();
                     }
                 }
             }
@@ -184,20 +215,31 @@ namespace Org.Strausshome.Yapbt.DataReader
         /// <returns>Returns a code about the status.</returns>
         public ReturnCodes.Codes StoreParkingPos()
         {
-            // Load the xml file.
-            XDocument xmlDoc = XDocument.Load(this.fields.outputFilePath);
+            // Init the vars before trying to use them.
+            XDocument xmlDoc = null;
+            IEnumerable<XElement> parkingPositions = null;
 
-            IEnumerable<XElement> ParkingPositions = null;
+            try
+            {
+                // Load the xml file.
+                xmlDoc = XDocument.Load(this.fields.outputFilePath);
+            }
+            catch (Exception)
+            {
+                return ReturnCodes.Codes.Error;
+            }
 
             try
             {
                 // Get all parking positions.
-                ParkingPositions =
+                parkingPositions =
                             from el in xmlDoc
                             .Descendants("FSData")
                             .Descendants("Airport")
                             .Descendants("TaxiwayParking")
                             select el;
+
+               
             }
             catch (Exception)
             {
@@ -209,30 +251,35 @@ namespace Org.Strausshome.Yapbt.DataReader
             {
                 using (var db = new YapbtDbEntities())
                 {
-                    // Reading all xml elements add the data to an object and save into the sqlite db.
-                    foreach (XElement ParkingPosition in ParkingPositions)
+                    using (var tn = db.Database.BeginTransaction())
                     {
-                        TempParking parking = new TempParking();
+                        foreach (var parkingPosition in parkingPositions)
+                        {
+                            TempParking parking = new TempParking();
 
-                        parking.Index = Convert.ToInt64(ParkingPosition.Attribute("index").Value);
-                        parking.Name = ParkingPosition.Attribute("name").Value;
-                        parking.Number = Convert.ToInt64(ParkingPosition.Attribute("number").Value);
+                            parking.Index = Convert.ToInt64(parkingPosition.Attribute("index").Value);
+                            parking.Name = parkingPosition.Attribute("name").Value;
+                            parking.Number = Convert.ToInt64(parkingPosition.Attribute("number").Value);
 
-                        // Converting the latitude and longitude to string and double to avoid
-                        // system culture problems.
-                        string txt = ParkingPosition.Attribute("lat").Value.ToString(CultureInfo.InvariantCulture);
+                            // Converting the latitude and longitude to string and double to avoid
+                            // system culture problems.
+                            string txt = parkingPosition.Attribute("lat").Value.ToString(CultureInfo.InvariantCulture);
 
-                        //back to a double
-                        parking.Latitude = double.Parse(txt, CultureInfo.InvariantCulture);
+                            //back to a double
+                            parking.Latitude = double.Parse(txt, CultureInfo.InvariantCulture);
 
-                        txt = ParkingPosition.Attribute("lon").Value.ToString(CultureInfo.InvariantCulture);
+                            txt = parkingPosition.Attribute("lon").Value.ToString(CultureInfo.InvariantCulture);
 
-                        //back to a double
-                        parking.Longitude = double.Parse(txt, CultureInfo.InvariantCulture);
+                            //back to a double
+                            parking.Longitude = double.Parse(txt, CultureInfo.InvariantCulture);
 
-                        db.TempParking.Add(parking);
-                        db.SaveChanges();
+                            db.TempParking.Add(parking);
+                            db.SaveChanges();
+                        }
+
+                        tn.Commit();
                     }
+                    
                 }
             }
             catch (Exception)
@@ -244,6 +291,7 @@ namespace Org.Strausshome.Yapbt.DataReader
             return ReturnCodes.Codes.ImportParkingPosOk;
         }
 
+        
         #endregion Private Methods
     }
 }

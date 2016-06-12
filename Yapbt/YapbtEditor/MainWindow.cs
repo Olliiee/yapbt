@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using Org.Strausshome.Yapbt.Codes;
 using Org.Strausshome.Yapbt.Messages;
 using Org.Strausshome.Yapbt.YapbtHandle;
@@ -36,6 +39,9 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
 
             // Let's start with the parking positions of this airport.
             var parkingData = tempData.GetParkingPositions();
+
+            CurrentStatusLabel.Text = "Drawing the map.";
+            Application.DoEvents();
 
             foreach (var parking in parkingData)
             {
@@ -129,7 +135,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
             if (airportSelector.ShowDialog(this) == DialogResult.OK)
             {
                 bool addNewVariation = airportSelector.AddNewVariation;
-                ReturnCodes.FsVersion code = airportSelector.Code;
+                ReturnCodes.FsVersion fsVersion = airportSelector.Code;
                 string icaoCode = airportSelector.IcaoCode;
                 string variatioName = airportSelector.VariatioName;
 
@@ -150,16 +156,29 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
 
                     CurrentStatusLabel.Text = "Resetting temp database ...";
 
-                    if (bglReader.ConvertAndResetDb(this.fields.Config.ReadConfig("bgltool"), openBglXmlFileDialog.FileName, Directory.GetCurrentDirectory() + "\\temp\\temp.xml") == ReturnCodes.Codes.ResetOk)
+                    ReturnCodes.Codes code = bglReader.ConvertAndResetDb(this.fields.Config.ReadConfig("bgltool"), openBglXmlFileDialog.FileName, Directory.GetCurrentDirectory() + "\\temp\\temp.xml");
+
+                    if (code == ReturnCodes.Codes.ResetOk)
                     {
                         CurrentStatusLabel.Text = "Loading new stuff ...";
-                        MessageBox.Show(msg.CreateMessage(bglReader.StoreParkingPos()));
-                        MessageBox.Show(msg.CreateMessage(bglReader.StoreTaxiway()));
-                        MessageBox.Show(msg.CreateMessage(bglReader.StorePoints()));
+
+                        MessageBox.Show(msg.CreateMessage(bglReader.StoreParkingPos()), "Import", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        CurrentStatusLabel.Text = "Loading taxiways.";
+                        Application.DoEvents();
+
+                        MessageBox.Show(msg.CreateMessage(bglReader.StoreTaxiway()), "Import", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        CurrentStatusLabel.Text = "Loading moving points.";
+                        Application.DoEvents();
+
+                        MessageBox.Show(msg.CreateMessage(bglReader.StorePoints()), "Import", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Error");
+                        MessageBox.Show(code.ToString());
+                        
+                        
                     }
 
                     this.CreateMap();
