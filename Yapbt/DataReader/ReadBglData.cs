@@ -79,8 +79,6 @@ namespace Org.Strausshome.Yapbt.DataReader
                 throw;
             }
 
-            
-
             try
             {
                 // Get all taxiway points.
@@ -100,6 +98,7 @@ namespace Org.Strausshome.Yapbt.DataReader
             {
                 using (var db = new YapbtDbEntities())
                 {
+                    // Using transaction to store much faster into sqlite.
                     using (var tn = db.Database.BeginTransaction())
                     {
                         foreach (XElement TaxiPoint in TaxiwayPoints)
@@ -156,8 +155,6 @@ namespace Org.Strausshome.Yapbt.DataReader
                 throw;
             }
 
-            
-
             try
             {
                 // Get all taxiway paths.
@@ -178,6 +175,7 @@ namespace Org.Strausshome.Yapbt.DataReader
             {
                 using (var db = new YapbtDbEntities())
                 {
+                    // Using transaction to store much faster into sqlite.
                     using (var tn = db.Database.BeginTransaction())
                     {
                         // Reading all xml elements add the data to an object and save into the sqlite db.
@@ -238,8 +236,6 @@ namespace Org.Strausshome.Yapbt.DataReader
                             .Descendants("Airport")
                             .Descendants("TaxiwayParking")
                             select el;
-
-               
             }
             catch (Exception)
             {
@@ -251,6 +247,7 @@ namespace Org.Strausshome.Yapbt.DataReader
             {
                 using (var db = new YapbtDbEntities())
                 {
+                    // Using transaction to store much faster into sqlite.
                     using (var tn = db.Database.BeginTransaction())
                     {
                         foreach (var parkingPosition in parkingPositions)
@@ -279,7 +276,6 @@ namespace Org.Strausshome.Yapbt.DataReader
 
                         tn.Commit();
                     }
-                    
                 }
             }
             catch (Exception)
@@ -291,7 +287,6 @@ namespace Org.Strausshome.Yapbt.DataReader
             return ReturnCodes.Codes.ImportParkingPosOk;
         }
 
-        
         #endregion Private Methods
     }
 }
