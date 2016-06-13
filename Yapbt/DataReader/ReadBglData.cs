@@ -123,6 +123,7 @@ namespace Org.Strausshome.Yapbt.DataReader
                             db.SaveChanges();
                         }
 
+                        // Commit data to db.
                         tn.Commit();
                     }
                 }
@@ -181,6 +182,7 @@ namespace Org.Strausshome.Yapbt.DataReader
                         // Reading all xml elements add the data to an object and save into the sqlite db.
                         foreach (XElement TaxiwayPath in TaxiwayPaths)
                         {
+                            // TODO add type to the model.
                             var path = new TempTaxiway();
 
                             path.FromPoint = Convert.ToInt64(TaxiwayPath.Attribute("start").Value);

@@ -71,11 +71,12 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
             {
                 // Create an object array and add the parking position data.
                 object[] args = { taxiway.FromPoint.Latitude, taxiway.FromPoint.Longitude, taxiway.ToPoint.Latitude, taxiway.ToPoint.Longitude };
-
+                
                 try
                 {
                     // Invoke into the addGate javascript.
                     YapbtBrowser.Document.InvokeScript("addTaxiway", args);
+                    
                 }
                 catch
                 {
