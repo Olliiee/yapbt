@@ -87,13 +87,14 @@ namespace Org.Strausshome.Yapbt.DataReader
                             .Descendants("FSData")
                             .Descendants("Airport")
                             .Descendants("TaxiwayPoint")
+                            //.Where(el => el.Attribute("type").Value == "NORMAL")
                             select el;
             }
             catch (Exception)
             {
                 return ReturnCodes.Codes.XmlError;
             }
-
+            XElement tehuhump = null;
             try
             {
                 using (var db = new YapbtDbEntities())
@@ -104,7 +105,7 @@ namespace Org.Strausshome.Yapbt.DataReader
                         foreach (XElement TaxiPoint in TaxiwayPoints)
                         {
                             var point = new TempPoint();
-
+                            tehuhump = TaxiPoint;
                             point.Index = Convert.ToInt64(TaxiPoint.Attribute("index").Value);
 
                             // Converting the latitude and longitude to string and double to avoid
@@ -118,6 +119,8 @@ namespace Org.Strausshome.Yapbt.DataReader
 
                             //back to a double
                             point.Longitude = double.Parse(txt, CultureInfo.InvariantCulture);
+
+                            point.Type = TaxiPoint.Attribute("type").Value;
 
                             db.TempPoint.Add(point);
                             db.SaveChanges();
@@ -187,6 +190,7 @@ namespace Org.Strausshome.Yapbt.DataReader
 
                             path.FromPoint = Convert.ToInt64(TaxiwayPath.Attribute("start").Value);
                             path.ToPoint = Convert.ToInt64(TaxiwayPath.Attribute("end").Value);
+                            path.Type = TaxiwayPath.Attribute("type").Value;
 
                             db.TempTaxiway.Add(path);
                             db.SaveChanges();

@@ -12,12 +12,12 @@
         <EntityTypeShape EntityType="YapbtDbModel.AirportVariations" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="YapbtDbModel.Configuration" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="YapbtDbModel.TempParking" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="YapbtDbModel.TempPoint" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="YapbtDbModel.FK_AirportVariations_0_0" ManuallyRouted="false" />
         <AssociationConnector Association="YapbtDbModel.FK_AirportPositions_0_0" ManuallyRouted="false" />
         <AssociationConnector Association="YapbtDbModel.FK_AirportPushBackPath_0_0" ManuallyRouted="false" />
         <AssociationConnector Association="YapbtDbModel.FK_AirportPushPoints_0_0" ManuallyRouted="false" />
         <EntityTypeShape EntityType="YapbtDbModel.TempTaxiway" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="YapbtDbModel.TempPoint" Width="1.5" PointX="5.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

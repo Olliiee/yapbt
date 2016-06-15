@@ -32,7 +32,7 @@ namespace Org.Strausshome.Yapbt.DataConnection
         public virtual DbSet<AirportVariations> AirportVariations { get; set; }
         public virtual DbSet<Configuration> Configuration { get; set; }
         public virtual DbSet<TempParking> TempParking { get; set; }
-        public virtual DbSet<TempPoint> TempPoint { get; set; }
         public virtual DbSet<TempTaxiway> TempTaxiway { get; set; }
+        public virtual DbSet<TempPoint> TempPoint { get; set; }
     }
 }

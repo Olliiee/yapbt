@@ -83,6 +83,7 @@
           <Property Name="Index" Type="integer" Nullable="false" />
           <Property Name="Latitude" Type="real" Nullable="false" />
           <Property Name="Longitude" Type="real" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="TempTaxiway">
           <Key>
@@ -91,6 +92,7 @@
           <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FromPoint" Type="integer" Nullable="false" />
           <Property Name="ToPoint" Type="integer" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <Association Name="FK_AirportPositions_0_0">
           <End Role="AirportVariations" Type="Self.AirportVariations" Multiplicity="1" />
@@ -233,15 +235,6 @@
           <Property Name="Latitude" Type="Double" Nullable="false" />
           <Property Name="Longitude" Type="Double" Nullable="false" />
         </EntityType>
-        <EntityType Name="TempPoint">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Index" Type="Int64" Nullable="false" />
-          <Property Name="Latitude" Type="Double" Nullable="false" />
-          <Property Name="Longitude" Type="Double" Nullable="false" />
-        </EntityType>
         <Association Name="FK_AirportVariations_0_0">
           <End Role="Airport" Type="Self.Airport" Multiplicity="1" />
           <End Role="AirportVariations" Type="Self.AirportVariations" Multiplicity="*" />
@@ -298,7 +291,6 @@
           <EntitySet Name="AirportVariations" EntityType="Self.AirportVariations" />
           <EntitySet Name="Configuration" EntityType="Self.Configuration" />
           <EntitySet Name="TempParking" EntityType="Self.TempParking" />
-          <EntitySet Name="TempPoint" EntityType="Self.TempPoint" />
           <AssociationSet Name="FK_AirportVariations_0_0" Association="Self.FK_AirportVariations_0_0">
             <End Role="Airport" EntitySet="Airport" />
             <End Role="AirportVariations" EntitySet="AirportVariations" />
@@ -316,6 +308,7 @@
             <End Role="AirportPushPoints" EntitySet="AirportPushPoints" />
           </AssociationSet>
           <EntitySet Name="TempTaxiway" EntityType="YapbtDbModel.TempTaxiway" />
+          <EntitySet Name="TempPoint" EntityType="YapbtDbModel.TempPoint" />
         </EntityContainer>
         <EntityType Name="TempTaxiway">
           <Key>
@@ -324,6 +317,17 @@
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FromPoint" Type="Int64" Nullable="false" />
           <Property Name="ToPoint" Type="Int64" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TempPoint">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Index" Type="Int64" Nullable="false" />
+          <Property Name="Latitude" Type="Double" Nullable="false" />
+          <Property Name="Longitude" Type="Double" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -408,21 +412,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TempPoint">
-            <EntityTypeMapping TypeName="YapbtDbModel.TempPoint">
-              <MappingFragment StoreEntitySet="TempPoint">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Index" ColumnName="Index" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TempTaxiway">
             <EntityTypeMapping TypeName="YapbtDbModel.TempTaxiway">
               <MappingFragment StoreEntitySet="TempTaxiway">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="ToPoint" ColumnName="ToPoint" />
                 <ScalarProperty Name="FromPoint" ColumnName="FromPoint" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TempPoint">
+            <EntityTypeMapping TypeName="YapbtDbModel.TempPoint">
+              <MappingFragment StoreEntitySet="TempPoint">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Index" ColumnName="Index" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

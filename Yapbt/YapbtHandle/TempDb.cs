@@ -27,7 +27,7 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
             using (var db = new YapbtDbEntities())
             {
                 // Load the complete taxiway list.
-                var taxiwayList = db.TempTaxiway.ToList();
+                var taxiwayList = db.TempTaxiway.Where(c => c.Type == "TAXI" || c.Type == "PATH").ToList();
 
                 foreach (var taxiway in taxiwayList)
                 {
@@ -36,12 +36,14 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
                     // Get the from point by it's index.
                     resultTaxiway.FromPoint = db.TempPoint
                         .Where(c => c.Index == taxiway.FromPoint)
-                        .FirstOrDefault();
+                        .Single();
 
                     // Get the to point by it's index.
                     resultTaxiway.ToPoint = db.TempPoint
                         .Where(c => c.Index == taxiway.ToPoint)
-                        .FirstOrDefault();
+                        .Single();
+
+                    resultTaxiway.Type = taxiway.Type;
 
                     yield return resultTaxiway;
                 }

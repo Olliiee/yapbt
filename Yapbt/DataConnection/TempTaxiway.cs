@@ -17,5 +17,6 @@ namespace Org.Strausshome.Yapbt.DataConnection
         public long id { get; set; }
         public long FromPoint { get; set; }
         public long ToPoint { get; set; }
+        public string Type { get; set; }
     }
 }

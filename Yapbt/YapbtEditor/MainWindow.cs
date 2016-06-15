@@ -42,7 +42,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
 
             CurrentStatusLabel.Text = "Drawing the map.";
             Application.DoEvents();
-
+            // TODO The same loading for the parking path.
             foreach (var parking in parkingData)
             {
                 // Create an object array and add the parking position data.
