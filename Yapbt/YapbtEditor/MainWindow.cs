@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using Org.Strausshome.Yapbt.Codes;
+using Org.Strausshome.Yapbt.DataConnection;
 using Org.Strausshome.Yapbt.Messages;
 using Org.Strausshome.Yapbt.YapbtHandle;
 
@@ -31,6 +30,49 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
         #region Private Methods
 
         /// <summary>
+        /// Save the new airport variation to the sqlite db.
+        /// </summary>
+        /// <param name="variationName"></param>
+        /// <param name="bglFileName">  </param>
+        private void AddAirportVariationToDb(string variationName, string bglFileName, ReturnCodes.FsVersion code)
+        {
+            AirportVariations variation = new AirportVariations();
+            Variation manageVariation = new Variation();
+
+            variation.bglfile = bglFileName;
+            variation.variationname = variationName;
+            variation.flightsim = code.ToString();
+            variation.airportid = this.fields.CurrentAirport.airportid;
+            variation.Airport = this.fields.CurrentAirport;
+            variation.cts = DateTime.Now;
+            variation.variationid = Guid.NewGuid();
+
+            if (manageVariation.AddNewVariation(variation))
+            {
+                MessageBox.Show("Airport variation saved.", "New airport variation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Unable to save the new variation.", "New airport variation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Enable the add a new path mode.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">     </param>
+        private void AddNewPath_Click(object sender, System.EventArgs e)
+        {
+            // Focus and clear all overlays on the map.
+            YapbtBrowser.Focus();
+            YapbtBrowser.Document.InvokeScript("clearOverlays");
+            YapbtBrowser.Document.InvokeScript("EnableNewPath");
+
+            saveNewPath.Enabled = true;
+        }
+
+        /// <summary>
         /// Load the gates into the map.
         /// </summary>
         private void CreateMap()
@@ -42,7 +84,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
 
             CurrentStatusLabel.Text = "Drawing the map.";
             Application.DoEvents();
-            // TODO The same loading for the parking path.
+
             foreach (var parking in parkingData)
             {
                 // Create an object array and add the parking position data.
@@ -71,12 +113,11 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
             {
                 // Create an object array and add the parking position data.
                 object[] args = { taxiway.FromPoint.Latitude, taxiway.FromPoint.Longitude, taxiway.ToPoint.Latitude, taxiway.ToPoint.Longitude };
-                
+
                 try
                 {
                     // Invoke into the addGate javascript.
                     YapbtBrowser.Document.InvokeScript("addTaxiway", args);
-                    
                 }
                 catch
                 {
@@ -101,7 +142,6 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                 {
                     // Invoke into the addGate javascript.
                     YapbtBrowser.Document.InvokeScript("addTaxiway", args);
-
                 }
                 catch
                 {
@@ -116,6 +156,12 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
 
             // Invoke into the FitToBounce javascript.
             YapbtBrowser.Document.InvokeScript("FitToBounce");
+            YapbtBrowser.Focus();
+
+            AddNewPath.Enabled = true;
+
+            CurrentStatusLabel.Text = "Loading finished.";
+            Application.DoEvents();
         }
 
         private void MainWindow_Shown(object sender, System.EventArgs e)
@@ -128,8 +174,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                 this.Close();
             }
 
-            // Still there? Let's go on.
-            // Check if bgl tool converter path is set.
+            // Still there? Let's go on. Check if bgl tool converter path is set.
             string dbValues = this.fields.Config.ReadConfig("bgltool");
             if (dbValues == string.Empty || dbValues == null)
             {
@@ -155,18 +200,24 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
         private void OpenAirport_Click(object sender, System.EventArgs e)
         {
             AirportSelection airportSelector = new AirportSelection();
+            AirportData airportData = new AirportData();
             MsgCodes msg = new MsgCodes();
 
             // open the dialog and check the result.
             if (airportSelector.ShowDialog(this) == DialogResult.OK)
             {
+                // Get the information by the airport selector form.
                 bool addNewVariation = airportSelector.AddNewVariation;
                 ReturnCodes.FsVersion fsVersion = airportSelector.Code;
                 string icaoCode = airportSelector.IcaoCode;
                 string variatioName = airportSelector.VariatioName;
+                bool newVariation = airportSelector.AddNewVariation;
+
+                // Get the current airport object from db.
+                this.fields.CurrentAirport = airportData.GetAirportByCode(icaoCode);
 
                 // Center the view to the airport.
-                this.SetNewAirportCenter(icaoCode);
+                this.SetNewAirportCenter(this.fields.CurrentAirport);
 
                 // Ok load the bgl file and covert it.
                 if (openBglXmlFileDialog.ShowDialog() == DialogResult.OK)
@@ -184,44 +235,55 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
 
                     ReturnCodes.Codes code = bglReader.ConvertAndResetDb(this.fields.Config.ReadConfig("bgltool"), openBglXmlFileDialog.FileName, Directory.GetCurrentDirectory() + "\\temp\\temp.xml");
 
+                    // Insert the temp data if the return code is ok.
                     if (code == ReturnCodes.Codes.ResetOk)
                     {
-                        CurrentStatusLabel.Text = "Loading new stuff ...";
+                        this.StoreData(bglReader);
 
-                        MessageBox.Show(msg.CreateMessage(bglReader.StoreParkingPos()), "Import", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        CurrentStatusLabel.Text = "Loading taxiways.";
-                        Application.DoEvents();
-
-                        MessageBox.Show(msg.CreateMessage(bglReader.StoreTaxiway()), "Import", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        CurrentStatusLabel.Text = "Loading moving points.";
-                        Application.DoEvents();
-
-                        MessageBox.Show(msg.CreateMessage(bglReader.StorePoints()), "Import", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // Create the new variation.
+                        if (newVariation)
+                        {
+                            this.AddAirportVariationToDb(variatioName, System.IO.Path.GetFileName(openBglXmlFileDialog.FileName), fsVersion);
+                        }
                     }
                     else
                     {
                         MessageBox.Show(code.ToString());
-                        
-                        
                     }
-
-                    this.CreateMap();
                 }
             }
         }
 
         /// <summary>
+        /// Read the XML data by type and store in into the SQLite db.
+        /// </summary>
+        /// <param name="bglReader"></param>
+        private void StoreData(DataReader.ReadBglData bglReader)
+        {
+            CurrentStatusLabel.Text = "Loading new stuff ...";
+
+            bglReader.StoreParkingPos();
+
+            CurrentStatusLabel.Text = "Loading taxiways.";
+            Application.DoEvents();
+
+            bglReader.StoreTaxiway();
+
+            CurrentStatusLabel.Text = "Loading moving points.";
+            Application.DoEvents();
+
+            bglReader.StorePoints();
+
+            // Only draw the map if all data is available.
+            this.CreateMap();
+        }
+
+        /// <summary>
         /// Set a new center to the selected airport.
         /// </summary>
-        /// <param name="icaoCode">The code of the airport.</param>
-        private void SetNewAirportCenter(string icaoCode)
+        /// <param name="airport">The airport object.</param>
+        private void SetNewAirportCenter(Airport airport)
         {
-            AirportData airportData = new AirportData();
-
-            var airport = airportData.GetAirportByCode(icaoCode);
-
             if (airport != null)
             {
                 object[] positions = { airport.latitude, airport.longitude };
@@ -230,5 +292,16 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
         }
 
         #endregion Private Methods
+
+        private void saveNewPath_Click(object sender, EventArgs e)
+        {
+            string json = "";
+            foreach (HtmlElement el in YapbtBrowser.Document.GetElementsByTagName("div"))
+                if (el.GetAttribute("id") == "json")
+                {
+                    json = el.InnerText;
+                    YapbtBrowser.Document.InvokeScript("ResetPushBackPath");
+                }
+        }
     }
 }

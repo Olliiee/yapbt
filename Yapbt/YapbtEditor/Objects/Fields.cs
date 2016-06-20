@@ -1,9 +1,17 @@
-﻿using Org.Strausshome.Yapbt.YapbtHandle;
+﻿using Org.Strausshome.Yapbt.DataConnection;
 
 namespace Org.Strausshome.Yapbt.YapbtEditor.Objects
 {
     public class Fields
     {
-        public Configuration Config { get; set; }
+        /// <summary>
+        /// Gets or sets the current configuration of the editor.
+        /// </summary>
+        public YapbtHandle.Configuration Config { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current airport.
+        /// </summary>
+        public Airport CurrentAirport { get; set; }
     }
 }

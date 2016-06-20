@@ -45,6 +45,7 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
                 try
                 {
                     db.AirportVariations.Add(airport);
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {

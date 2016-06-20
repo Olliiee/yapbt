@@ -36,8 +36,12 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.CurrentStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.YapbtBrowser = new System.Windows.Forms.WebBrowser();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.saveNewPath = new System.Windows.Forms.Button();
+            this.AddNewPath = new System.Windows.Forms.Button();
             this.AirportGroup.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // AirportGroup
@@ -109,11 +113,51 @@
             this.YapbtBrowser.Size = new System.Drawing.Size(926, 477);
             this.YapbtBrowser.TabIndex = 3;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.saveNewPath);
+            this.groupBox1.Controls.Add(this.AddNewPath);
+            this.groupBox1.Location = new System.Drawing.Point(108, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(389, 83);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Editor";
+            // 
+            // saveNewPath
+            // 
+            this.saveNewPath.Enabled = false;
+            this.saveNewPath.Image = global::Org.Strausshome.Yapbt.YapbtEditor.Properties.Resources.save;
+            this.saveNewPath.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.saveNewPath.Location = new System.Drawing.Point(124, 20);
+            this.saveNewPath.Name = "saveNewPath";
+            this.saveNewPath.Size = new System.Drawing.Size(83, 57);
+            this.saveNewPath.TabIndex = 2;
+            this.saveNewPath.Text = "Save the path";
+            this.saveNewPath.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.saveNewPath.UseVisualStyleBackColor = true;
+            this.saveNewPath.Click += new System.EventHandler(this.saveNewPath_Click);
+            // 
+            // AddNewPath
+            // 
+            this.AddNewPath.Enabled = false;
+            this.AddNewPath.Image = global::Org.Strausshome.Yapbt.YapbtEditor.Properties.Resources.new_routes;
+            this.AddNewPath.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.AddNewPath.Location = new System.Drawing.Point(6, 19);
+            this.AddNewPath.Name = "AddNewPath";
+            this.AddNewPath.Size = new System.Drawing.Size(112, 57);
+            this.AddNewPath.TabIndex = 1;
+            this.AddNewPath.Text = "Create a new path";
+            this.AddNewPath.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.AddNewPath.UseVisualStyleBackColor = true;
+            this.AddNewPath.Click += new System.EventHandler(this.AddNewPath_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 603);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.YapbtBrowser);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.AirportGroup);
@@ -123,6 +167,7 @@
             this.AirportGroup.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -138,6 +183,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel CurrentStatusLabel;
         private System.Windows.Forms.WebBrowser YapbtBrowser;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button AddNewPath;
+        private System.Windows.Forms.Button saveNewPath;
     }
 }
 

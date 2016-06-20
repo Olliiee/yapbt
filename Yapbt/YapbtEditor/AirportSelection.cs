@@ -52,7 +52,9 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                 // A FS version was selected?
                 if (Code != ReturnCodes.FsVersion.None)
                 {
+                    this.VariatioName = NewVariationName.Text;
                     this.DialogResult = DialogResult.OK;
+                    this.AddNewVariation = true;
                     this.Close();
                 }
                 else
@@ -70,6 +72,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
             {
                 this.AddNewVariation = false;
                 this.DialogResult = DialogResult.OK;
+
                 this.Close();
             }
 
@@ -168,5 +171,12 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
         }
 
         #endregion Private Methods
+
+        private void IcaoList_TextChanged(object sender, EventArgs e)
+        {
+            IcaoList.Text = IcaoList.Text.ToUpper();
+            IcaoList.Focus();
+            IcaoList.SelectionStart = IcaoList.Text.Length;
+        }
     }
 }

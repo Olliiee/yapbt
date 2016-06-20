@@ -11019,6 +11019,7 @@
             this.IcaoList.TabIndex = 11;
             this.IcaoList.Text = "Enter an ICAO code";
             this.IcaoList.SelectedIndexChanged += new System.EventHandler(this.IcaoList_SelectedIndexChanged);
+            this.IcaoList.TextChanged += new System.EventHandler(this.IcaoList_TextChanged);
             // 
             // VariationList
             // 
