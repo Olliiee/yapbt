@@ -49,5 +49,37 @@ namespace Org.Strausshome.Yapbt.YapbtHandle
                 }
             }
         }
+
+        /// <summary>
+        /// Load all taxiway with the necessary start and stop point of parking positions.
+        /// </summary>
+        /// <returns>Returns the taxiway list.</returns>
+        public IEnumerable<ParkingWay> GetParkingways()
+        {
+            using (var db = new YapbtDbEntities())
+            {
+                // Load the complete taxiway list.
+                var taxiwayList = db.TempTaxiway.Where(c => c.Type == "PARKING").ToList();
+
+                foreach (var taxiway in taxiwayList)
+                {
+                    ParkingWay resultTaxiway = new ParkingWay();
+
+                    // Get the from point by it's index.
+                    resultTaxiway.FromPoint = db.TempPoint
+                        .Where(c => c.Index == taxiway.FromPoint && c.Type == "NORMAL")
+                        .Single();
+
+                    // Get the to point by it's index.
+                    resultTaxiway.ParkingPoint = db.TempParking
+                        .Where(c => c.Index == taxiway.ToPoint)
+                        .Single();
+
+                    resultTaxiway.Type = taxiway.Type;
+
+                    yield return resultTaxiway;
+                }
+            }
+        }
     }
 }

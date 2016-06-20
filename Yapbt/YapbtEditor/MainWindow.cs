@@ -89,6 +89,31 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                 }
             }
 
+            // Load the taxiways of this airport for parking positions only.
+            var parkingwayData = tempData.GetParkingways();
+
+            foreach (var taxiway in parkingwayData)
+            {
+                // Create an object array and add the parking position data.
+                object[] args = { taxiway.FromPoint.Latitude, taxiway.FromPoint.Longitude, taxiway.ParkingPoint.Latitude, taxiway.ParkingPoint.Longitude };
+
+                try
+                {
+                    // Invoke into the addGate javascript.
+                    YapbtBrowser.Document.InvokeScript("addTaxiway", args);
+
+                }
+                catch
+                {
+                    MessageBox.Show(null, "Error! Unable to send the taxiway positions.",
+                        "Error: Internet connection",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    break;
+                }
+            }
+
             // Invoke into the FitToBounce javascript.
             YapbtBrowser.Document.InvokeScript("FitToBounce");
         }
