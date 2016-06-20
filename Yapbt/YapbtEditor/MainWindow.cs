@@ -49,11 +49,20 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
 
             if (manageVariation.AddNewVariation(variation))
             {
-                MessageBox.Show("Airport variation saved.", "New airport variation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Airport variation saved.", "New airport variation"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Information);
+
+                this.fields.CurrentVariation = variation;
+                AddNewPath.Enabled = true;
             }
             else
             {
-                MessageBox.Show("Unable to save the new variation.", "New airport variation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Unable to save the new variation.", "New airport variation"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
+
+                AddNewPath.Enabled = false;
             }
         }
 
@@ -68,6 +77,11 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
             YapbtBrowser.Focus();
             YapbtBrowser.Document.InvokeScript("clearOverlays");
             YapbtBrowser.Document.InvokeScript("EnableNewPath");
+
+            MessageBox.Show("Please double click a gate or parking position on the map."
+                , "Select parking position"
+                , MessageBoxButtons.OK
+                , MessageBoxIcon.Information);
 
             saveNewPath.Enabled = true;
         }
@@ -297,11 +311,15 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
         {
             string json = "";
             foreach (HtmlElement el in YapbtBrowser.Document.GetElementsByTagName("div"))
+            {
                 if (el.GetAttribute("id") == "json")
                 {
                     json = el.InnerText;
                     YapbtBrowser.Document.InvokeScript("ResetPushBackPath");
+
+                    // TODO YapbtHandle code clean up and review.
                 }
+            }
         }
     }
 }
