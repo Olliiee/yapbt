@@ -4,9 +4,10 @@ namespace Org.Strausshome.Yapbt.Messages
 {
     public class MsgCodes
     {
-        public string CreateMessage(ReturnCodes.Codes code)
+        public MessageBoxData CreateMessage(ReturnCodes.Codes code)
         {
             string result = string.Empty;
+            MessageBoxData boxData = new MessageBoxData();
 
             switch (code)
             {
@@ -15,20 +16,40 @@ namespace Org.Strausshome.Yapbt.Messages
                 case ReturnCodes.Codes.Error:
                     break;
                 case ReturnCodes.Codes.ImportError:
-                    return "Error while importing the data.";
-                    break;
+                    boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
+                    boxData.Icon = System.Windows.Forms.MessageBoxIcon.Error;
+                    boxData.ReturnCode = code;
+                    boxData.Caption = "Error while importing";
+                    boxData.Message = "Error while importing the data.";
+                    return boxData;
                 case ReturnCodes.Codes.ImportOk:
-                    return "Import complete.";
-                    break;
+                    boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
+                    boxData.Icon = System.Windows.Forms.MessageBoxIcon.Error;
+                    boxData.ReturnCode = code;
+                    boxData.Caption = "Import complete";
+                    boxData.Message = "Import complete.";
+                    return boxData;
                 case ReturnCodes.Codes.ImportParkingPosOk:
-                    return "Import parking position complete.";
-                    break;
+                    boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
+                    boxData.Icon = System.Windows.Forms.MessageBoxIcon.Error;
+                    boxData.ReturnCode = code;
+                    boxData.Caption = "Import complete";
+                    boxData.Message = "Import parking position complete.";
+                    return boxData;
                 case ReturnCodes.Codes.ImportPointOk:
-                    return "Import single point complete.";
-                    break;
+                    boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
+                    boxData.Icon = System.Windows.Forms.MessageBoxIcon.Error;
+                    boxData.ReturnCode = code;
+                    boxData.Caption = "Import complete";
+                    boxData.Message = "Import single point complete.";
+                    return boxData;
                 case ReturnCodes.Codes.ImportTaxiwayOk:
-                    return "Import taxiway complete.";
-                    break;
+                    boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
+                    boxData.Icon = System.Windows.Forms.MessageBoxIcon.Error;
+                    boxData.ReturnCode = code;
+                    boxData.Caption = "Import complete";
+                    boxData.Message = "Import taxiway complete.";
+                    return boxData;
                 case ReturnCodes.Codes.ResetError:
                     break;
                 case ReturnCodes.Codes.ResetOk:
