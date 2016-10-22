@@ -43,6 +43,10 @@ namespace Org.Strausshome.Yapbt.BglFileHandle
                 {
                     BglArguments = "\"" + bglFile + "\" \"" + xmlFile + "\"";
                 }
+                else if (bglTool.ToLower().Contains("bglxmld.exe"))
+                {
+                    BglArguments = "\"" + bglFile + "\" \"" + xmlFile + "\"";
+                }
 
                 // Starting parameters are set? Let's got.
                 if (BglArguments != String.Empty)

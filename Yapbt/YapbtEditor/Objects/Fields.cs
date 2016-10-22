@@ -18,5 +18,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor.Objects
         /// Gets or sets the current variation of this airport.
         /// </summary>
         public AirportVariations CurrentVariation { get; set; }
+
+        public Messages.MsgCodes Codes { get; set; }
     }
 }

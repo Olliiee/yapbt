@@ -32,15 +32,16 @@
             this.OpenAirport = new System.Windows.Forms.Button();
             this.openBglXmlFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.setBglTool = new System.Windows.Forms.OpenFileDialog();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.CurrentStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.YapbtBrowser = new System.Windows.Forms.WebBrowser();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.saveNewPath = new System.Windows.Forms.Button();
+            this.SaveNewPath = new System.Windows.Forms.Button();
             this.AddNewPath = new System.Windows.Forms.Button();
+            this.ParkingPositionList = new System.Windows.Forms.ComboBox();
             this.AirportGroup.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,16 +78,16 @@
             this.setBglTool.Filter = "BGL Converter|*.exe";
             this.setBglTool.Title = "Set BGL converter tool";
             // 
-            // statusStrip1
+            // statusStrip
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.CurrentStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 581);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(950, 22);
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip.Location = new System.Drawing.Point(0, 581);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(950, 22);
+            this.statusStrip.TabIndex = 2;
+            this.statusStrip.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
@@ -115,28 +116,29 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.saveNewPath);
+            this.groupBox1.Controls.Add(this.ParkingPositionList);
+            this.groupBox1.Controls.Add(this.SaveNewPath);
             this.groupBox1.Controls.Add(this.AddNewPath);
             this.groupBox1.Location = new System.Drawing.Point(108, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(389, 83);
+            this.groupBox1.Size = new System.Drawing.Size(554, 83);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Editor";
             // 
-            // saveNewPath
+            // SaveNewPath
             // 
-            this.saveNewPath.Enabled = false;
-            this.saveNewPath.Image = global::Org.Strausshome.Yapbt.YapbtEditor.Properties.Resources.save;
-            this.saveNewPath.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.saveNewPath.Location = new System.Drawing.Point(124, 20);
-            this.saveNewPath.Name = "saveNewPath";
-            this.saveNewPath.Size = new System.Drawing.Size(83, 57);
-            this.saveNewPath.TabIndex = 2;
-            this.saveNewPath.Text = "Save the path";
-            this.saveNewPath.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.saveNewPath.UseVisualStyleBackColor = true;
-            this.saveNewPath.Click += new System.EventHandler(this.saveNewPath_Click);
+            this.SaveNewPath.Enabled = false;
+            this.SaveNewPath.Image = global::Org.Strausshome.Yapbt.YapbtEditor.Properties.Resources.save;
+            this.SaveNewPath.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.SaveNewPath.Location = new System.Drawing.Point(124, 20);
+            this.SaveNewPath.Name = "SaveNewPath";
+            this.SaveNewPath.Size = new System.Drawing.Size(83, 57);
+            this.SaveNewPath.TabIndex = 2;
+            this.SaveNewPath.Text = "Save the path";
+            this.SaveNewPath.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.SaveNewPath.UseVisualStyleBackColor = true;
+            this.SaveNewPath.Click += new System.EventHandler(this.saveNewPath_Click);
             // 
             // AddNewPath
             // 
@@ -152,6 +154,14 @@
             this.AddNewPath.UseVisualStyleBackColor = true;
             this.AddNewPath.Click += new System.EventHandler(this.AddNewPath_Click);
             // 
+            // ParkingPositionList
+            // 
+            this.ParkingPositionList.FormattingEnabled = true;
+            this.ParkingPositionList.Location = new System.Drawing.Point(214, 20);
+            this.ParkingPositionList.Name = "ParkingPositionList";
+            this.ParkingPositionList.Size = new System.Drawing.Size(186, 21);
+            this.ParkingPositionList.TabIndex = 3;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -159,14 +169,14 @@
             this.ClientSize = new System.Drawing.Size(950, 603);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.YapbtBrowser);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.AirportGroup);
             this.Name = "MainWindow";
             this.Text = "YAPBT- Editor";
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.AirportGroup.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -179,13 +189,14 @@
         private System.Windows.Forms.Button OpenAirport;
         private System.Windows.Forms.OpenFileDialog openBglXmlFileDialog;
         private System.Windows.Forms.OpenFileDialog setBglTool;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel CurrentStatusLabel;
         private System.Windows.Forms.WebBrowser YapbtBrowser;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button AddNewPath;
-        private System.Windows.Forms.Button saveNewPath;
+        private System.Windows.Forms.Button SaveNewPath;
+        private System.Windows.Forms.ComboBox ParkingPositionList;
     }
 }
 

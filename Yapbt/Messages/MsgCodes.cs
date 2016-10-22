@@ -6,8 +6,12 @@ namespace Org.Strausshome.Yapbt.Messages
     {
         public MessageBoxData CreateMessage(ReturnCodes.Codes code)
         {
-            string result = string.Empty;
             MessageBoxData boxData = new MessageBoxData();
+            boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
+            boxData.Icon = System.Windows.Forms.MessageBoxIcon.Exclamation;
+            boxData.ReturnCode = ReturnCodes.Codes.IdontKnowWhatHappenedError;
+            boxData.Caption = "Something went wrong ..";
+            boxData.Message = ".. and I don't knwo why.";
 
             switch (code)
             {
@@ -21,35 +25,35 @@ namespace Org.Strausshome.Yapbt.Messages
                     boxData.ReturnCode = code;
                     boxData.Caption = "Error while importing";
                     boxData.Message = "Error while importing the data.";
-                    return boxData;
+                    break;
                 case ReturnCodes.Codes.ImportOk:
                     boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
                     boxData.Icon = System.Windows.Forms.MessageBoxIcon.Error;
                     boxData.ReturnCode = code;
                     boxData.Caption = "Import complete";
                     boxData.Message = "Import complete.";
-                    return boxData;
+                    break;
                 case ReturnCodes.Codes.ImportParkingPosOk:
                     boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
                     boxData.Icon = System.Windows.Forms.MessageBoxIcon.Error;
                     boxData.ReturnCode = code;
                     boxData.Caption = "Import complete";
                     boxData.Message = "Import parking position complete.";
-                    return boxData;
+                    break;
                 case ReturnCodes.Codes.ImportPointOk:
                     boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
                     boxData.Icon = System.Windows.Forms.MessageBoxIcon.Error;
                     boxData.ReturnCode = code;
                     boxData.Caption = "Import complete";
                     boxData.Message = "Import single point complete.";
-                    return boxData;
+                    break;
                 case ReturnCodes.Codes.ImportTaxiwayOk:
                     boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
                     boxData.Icon = System.Windows.Forms.MessageBoxIcon.Error;
                     boxData.ReturnCode = code;
                     boxData.Caption = "Import complete";
                     boxData.Message = "Import taxiway complete.";
-                    return boxData;
+                    break;
                 case ReturnCodes.Codes.ResetError:
                     break;
                 case ReturnCodes.Codes.ResetOk:
@@ -57,6 +61,11 @@ namespace Org.Strausshome.Yapbt.Messages
                 case ReturnCodes.Codes.XmlError:
                     break;
                 case ReturnCodes.Codes.ConvertNoFileExistsError:
+                    boxData.Buttons = System.Windows.Forms.MessageBoxButtons.OK;
+                    boxData.Icon = System.Windows.Forms.MessageBoxIcon.Error;
+                    boxData.ReturnCode = code;
+                    boxData.Caption = "Unable to convert";
+                    boxData.Message = "Unable to convert the BGL file.";
                     break;
                 case ReturnCodes.Codes.ConvertError:
                     break;
@@ -66,7 +75,7 @@ namespace Org.Strausshome.Yapbt.Messages
                     break;
             }
 
-            return result;
+            return boxData;
 
         }
     }

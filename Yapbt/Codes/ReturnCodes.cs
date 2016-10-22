@@ -16,7 +16,8 @@
             XmlError,
             ConvertNoFileExistsError,
             ConvertError,
-            ConvertOk
+            ConvertOk,
+            IdontKnowWhatHappenedError
         };
 
         public enum FsVersion

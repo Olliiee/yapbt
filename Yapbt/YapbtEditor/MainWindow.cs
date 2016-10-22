@@ -23,6 +23,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
             InitializeComponent();
 
             this.fields.Config = new YapbtHandle.Configuration();
+            this.fields.Codes = new MsgCodes();
         }
 
         #endregion Public Constructors
@@ -83,7 +84,7 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                 , MessageBoxButtons.OK
                 , MessageBoxIcon.Information);
 
-            saveNewPath.Enabled = true;
+            SaveNewPath.Enabled = true;
         }
 
         /// <summary>
@@ -262,7 +263,8 @@ namespace Org.Strausshome.Yapbt.YapbtEditor
                     }
                     else
                     {
-                        MessageBox.Show(code.ToString());
+                        MessageBoxData boxData = fields.Codes.CreateMessage(code);
+                        MessageBox.Show(boxData.Message, boxData.Caption, boxData.Buttons, boxData.Icon);
                     }
                 }
             }
